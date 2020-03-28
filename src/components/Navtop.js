@@ -30,7 +30,7 @@ export const Navtop = () => {
       <div className="">
           <nav className="flex items-center justify-between flex-wrap  ">
               <div className="flex items-center flex-no-shrink text-white mr-6 ">
-                <img className="h-12 w-12 ml-2 mr-2" width="64" height="64" viewBox="0 0 64 64" src="img/road-icon.svg"/>
+                <img className="h-12 w-12 ml-2 mr-2" width="64" height="64" viewBox="0 0 64 64" src="img/road-icon.svg" alt="Road Accountant Logo"/>
                 <span className="cursor-default text-2xl font-extrabold text-purple-900 mt-2 hover:text-blue-700 font-black">Road Accountant</span> 
               </div>
               <div className="block lg:hidden">

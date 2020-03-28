@@ -1,10 +1,10 @@
 module.exports = {
   theme: {
-    backgroundColor: theme => ({
-      ...theme('colors'),
-      'bgprimary': '#f7f7f7'
-    }),
-    extend: {},
+    extend: {    
+      colors: {
+        paper2: '#de3618'
+      }
+    }
   },
   variants: {},
   plugins: [],

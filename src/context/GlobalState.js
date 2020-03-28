@@ -22,8 +22,9 @@ const initialState = {
     }
   ],
   renderStatus: {
+    landingPage: true,
     addMemberModal: false
-  }
+  }  
 }
 
 // Create context

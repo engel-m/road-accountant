@@ -6,7 +6,8 @@ import './styles/balloon.min.css';
 import './styles/animate.min.css';
 
 import App from './App';
+import { GlobalProvider } from './context/GlobalState';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<GlobalProvider><App /></GlobalProvider>, document.getElementById('root'));
 
 
