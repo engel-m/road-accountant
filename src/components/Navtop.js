@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
+import { NavLink } from './NavLink';
+
+  
 
 export const Navtop = () => {
-  const { renderToggle } = useContext(GlobalContext);
+  const { renderStatus } = useContext(GlobalContext); 
+  const currentView = renderStatus.currentView; 
 
   // Navbar Toggle
   document.addEventListener('DOMContentLoaded', function () {
@@ -18,11 +22,6 @@ export const Navtop = () => {
       });
     }
   });
-
-  const toggleTest = e => {
-    e.preventDefault();
-    renderToggle('addMemberModal');
-  }
 
   return (
   <header>
@@ -45,19 +44,12 @@ export const Navtop = () => {
               </div>
               <div id="main-nav" className="w-full text-right flex-grow lg:flex items-center lg:w-auto hidden  ">
                   <div className="text-sm lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                      <a href="#home"
-                          className="block lg:inline-block text-md font-bold  text-purple-900  sm:hover:border-indigo-400  hover:text-orange-500 mx-2 focus:text-blue-500  p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
-                          HOME
-                      </a>
-                      <a href="#home"
-                          className="block lg:inline-block text-md font-bold  text-gray-900  sm:hover:border-indigo-400  hover:text-orange-500 mx-2 focus:text-blue-500  p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
-                          LOGIN
-                      </a>
-                      <a href="#home"
-                          className="block lg:inline-block text-md font-bold  text-gray-900  sm:hover:border-indigo-400  hover:text-orange-500 mx-2 focus:text-blue-500  p-1 hover:bg-gray-300 sm:hover:bg-transparent rounded-lg">
-                          ABOUT
-                      </a>
-                      <button onClick={toggleTest} className="modal-close px-4 bg-indigo-600 p-3 rounded-lg text-white hover:bg-indigo-400">Add</button>
+                    {currentView !== 'LandingPage' &&  <NavLink linkText={'LANDING'} linkTo={'LandingPage'} />}
+                    {currentView === 'MainAppView' &&  <NavLink linkText={'+ CREATE GROUP'} linkTo={'CreateGroup'} />}
+                    <NavLink linkText={'> MY GROUPS'} linkTo={'MainAppView'} />
+                    {currentView === 'MainAppView' ?  <NavLink linkText={'LOG OUT'} linkTo={'LandingPage'} /> : 
+                      <NavLink linkText={'CREATE ACCOUNT'} linkTo={'CreateAccount'} />}                    
+                    <NavLink linkText={'ABOUT'} linkTo={'About'} />
                   </div>
                   <div className="text-2xl my-1 mx-3">
                       <img src="img/shopping.png" className="h-6" alt=""/>

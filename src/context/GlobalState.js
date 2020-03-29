@@ -22,9 +22,13 @@ const initialState = {
     }
   ],
   renderStatus: {
-    landingPage: true,
-    addMemberModal: false
-  }  
+    loggedIn: false,
+    currentView: 'MainAppView',
+    modalView: false,
+    modals: {
+      addMemberModal: false
+    }    
+  }
 }
 
 // Create context
@@ -35,10 +39,19 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Toggle Component Rendering (Render and remove modals f.e.)
-  function renderToggle(componentName) {
+  function toggleComponent(componentName, e) {
+    e.preventDefault();
     dispatch({
-      type: 'RENDER_STATUS',
+      type: 'TOGGLE_COMPONENT',
       payload: {componentName}
+    });
+  }
+
+  function toggleModal(modalName, e) {
+    e.preventDefault();
+    dispatch({
+      type: 'TOGGLE_MODAL',
+      payload: {modalName}
     });
   }
 
@@ -68,7 +81,8 @@ export const GlobalProvider = ({ children }) => {
     transactions: state.transactions,
     members: state.members,
     renderStatus: state.renderStatus,
-    renderToggle,
+    toggleComponent,
+    toggleModal,
     deleteTransaction,
     addTransaction
   }}>

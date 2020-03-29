@@ -2,7 +2,7 @@ module.exports = {
   theme: {
     extend: {    
       colors: {
-        paper2: '#de3618'
+        paper2: '#911d1d6953'
       }
     }
   },
