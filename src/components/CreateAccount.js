@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const CreateAccount = () => {
+  const { toggleComponent } = useContext(GlobalContext); 
   return (
     <>
         <div className="flex content-center items-center justify-center h-full animated fadeIn mb-10">
@@ -61,7 +62,7 @@ export const CreateAccount = () => {
 
             <div className="flex flex-wrap text-xl mt-6">
               <div className="w-1/2">
-                <span className="text-gray-600 font-bold italic cursor-pointer">
+                <span onClick={(e) => toggleComponent('LandingPage', e)} className="text-gray-600 font-bold italic cursor-pointer">
                   <small>&lt; Back to Log In Page</small>
                 </span>
               </div>          
