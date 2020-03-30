@@ -1,10 +1,10 @@
-import { LandingPage } from '../components/LandingPage';
-import { MainAppView } from '../components/MainAppView';
-import { CreateAccount } from '../components/CreateAccount';
+import { LandingPage } from '../components/views/Landing';
+import { MainAppView } from '../components/views/MainAppView';
+import { CreateAccount } from '../components/views/CreateAccount';
 
 export const viewSwitch = (currentView) => {
   switch (currentView) {
-  case 'LandingPage':     
+  case 'Landing':     
     return LandingPage;
   case 'CreateAccount':     
     return CreateAccount;

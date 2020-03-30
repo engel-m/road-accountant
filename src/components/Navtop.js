@@ -44,10 +44,10 @@ export const Navtop = () => {
               </div>
               <div id="main-nav" className="w-full text-right flex-grow lg:flex items-center lg:w-auto hidden  ">
                   <div className="text-sm lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                    {currentView !== 'LandingPage' &&  <NavLink linkText={'LANDING'} linkTo={'LandingPage'} />}
+                    {currentView !== 'Landing' &&  <NavLink linkText={'LANDING'} linkTo={'Landing'} />}
                     {currentView === 'MainAppView' &&  <NavLink linkText={'+ CREATE GROUP'} linkTo={'CreateGroup'} />}
                     <NavLink linkText={'> MY GROUPS'} linkTo={'MainAppView'} />
-                    {currentView === 'MainAppView' ?  <NavLink linkText={'LOG OUT'} linkTo={'LandingPage'} /> : 
+                    {currentView === 'MainAppView' ?  <NavLink linkText={'LOG OUT'} linkTo={'Landing'} /> : 
                       <NavLink linkText={'CREATE ACCOUNT'} linkTo={'CreateAccount'} />}                    
                     <NavLink linkText={'ABOUT'} linkTo={'About'} />
                   </div>

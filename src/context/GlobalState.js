@@ -25,9 +25,6 @@ const initialState = {
     loggedIn: false,
     currentView: 'MainAppView',
     modalView: false,
-    modals: {
-      addMemberModal: false
-    }    
   }
 }
 
@@ -67,13 +64,6 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'ADD_TRANSACTION',
       payload: transaction
-    });
-  }
-
-  function addMember(memberData) {
-    dispatch({
-      type: 'ADD_MEMBER',
-      payload: memberData
     });
   }
 

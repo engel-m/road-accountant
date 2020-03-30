@@ -1,8 +1,8 @@
 import React from 'react';
-import { MemberDisplay } from './MemberDisplay';
-import { IncomeExpenses } from './IncomeExpenses';
-import { AddTransaction } from './AddTransaction';
-import { TransactionList } from './TransactionList';
+import { MemberDisplay } from '../MemberDisplay';
+import { IncomeExpenses } from '../IncomeExpenses';
+import { AddTransaction } from '../AddTransaction';
+import { TransactionList } from '../TransactionList';
 
 export const MainAppView = () => {
   return (
