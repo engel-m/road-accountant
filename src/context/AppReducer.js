@@ -9,6 +9,9 @@ export default (state, action) => {
       const modalName = action.payload.modalName;
       nextState.renderStatus.modalView = modalName;
       return nextState;
+    case 'SET_LOGIN_STATUS':
+      nextState.loggedIn = action.payload.status;
+      return nextState;      
     case 'DELETE_TRANSACTION':
       return {
         ...state,

@@ -21,9 +21,9 @@ const initialState = {
       email: "bertvis@gmail.com"
     }
   ],
-  renderStatus: {
-    loggedIn: false,
-    currentView: 'MainAppView',
+  loggedIn: false,
+  renderStatus: {    
+    currentView: 'CreateAccount',
     modalView: false,
   }
 }
@@ -36,8 +36,10 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Toggle Component Rendering (Render and remove modals f.e.)
-  function toggleComponent(componentName, e) {
-    e.preventDefault();
+  function toggleComponent(componentName, e = '') {
+    if (e !== '') {
+      e.preventDefault()
+    }
     dispatch({
       type: 'TOGGLE_COMPONENT',
       payload: {componentName}
@@ -49,6 +51,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'TOGGLE_MODAL',
       payload: {modalName}
+    });
+  }
+
+  function setLoginStatus(status = false) {
+    dispatch({
+      type: 'SET_LOGIN_STATUS',
+      payload: {status}
     });
   }
 
@@ -70,9 +79,11 @@ export const GlobalProvider = ({ children }) => {
   return (<GlobalContext.Provider value={{
     transactions: state.transactions,
     members: state.members,
+    loggedIn: state.loggedIn,
     renderStatus: state.renderStatus,
     toggleComponent,
     toggleModal,
+    setLoginStatus,
     deleteTransaction,
     addTransaction
   }}>

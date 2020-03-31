@@ -11,6 +11,11 @@
 # production
 /build
 
+# firebase Cloud functions files
+.firebaserc 
+firebase.json
+/functions
+
 # misc
 .DS_Store
 .env

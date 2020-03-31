@@ -7,7 +7,7 @@ export const LandingPage = () => {
   return (
     <>
         <div className="flex content-center items-center justify-center h-full animated fadeIn mb-10">
-          <div className="w-9/12 md:w-6/12 lg:w-3/12 px-4 pt-32">
+          <div className="w-full md:w-8/12 lg:w-3/12 px-4 md:pt-32">
 
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg border-0">
               <div className="rounded-t mb-0 px-6 py-6">

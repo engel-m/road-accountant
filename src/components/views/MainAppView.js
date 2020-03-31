@@ -5,6 +5,20 @@ import { AddTransaction } from '../AddTransaction';
 import { TransactionList } from '../TransactionList';
 
 export const MainAppView = () => {
+
+      // var docRef = firestore.collection("groups").doc("9fgcyTHsY8KOHegA3Umr");
+
+    // docRef.get().then(function(doc) {
+    //     if (doc.exists) {
+    //         console.log("Document data:", doc.data());
+    //     } else {
+    //         // doc.data() will be undefined in this case
+    //         console.log("No such document!");
+    //     }
+    // }).catch(function(error) {
+    //     console.log("Error getting document:", error);
+    // });
+
   return (
     <>
     <MemberDisplay />      
