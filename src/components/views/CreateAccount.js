@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { firestore, fbAuth } from '../../config/Firebase';
+import { firestore, auth } from '../../config/Firebase';
 
 export const CreateAccount = () => {
-  const { toggleComponent } = useContext(GlobalContext); 
+  const { setView } = useContext(GlobalContext); 
   const [error, setError] = useState('');
 
   const formHandler = (e) => {
@@ -14,8 +14,14 @@ export const CreateAccount = () => {
     const email = form['email'].value || ''; 
     const password = form['password'].value || '';   
 
-    fbAuth.createUserWithEmailAndPassword(email, password).then(returned => {
-      console.log(returned)
+    auth.createUserWithEmailAndPassword(email, password).then(returned => {
+      if(returned.user && returned.additionalUserInfo.isNewUser === true){
+        returned.user.updateProfile({
+          displayName: nickname
+        }).then(
+          setView('CreateGroup')
+        )
+      }
     }).catch(error => {
       setError(error.message)
     })    
@@ -37,10 +43,10 @@ export const CreateAccount = () => {
                 <label
                   className="block uppercase text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-password">
-                  Nickname <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
+                  Nickname <span className="text-gray-700 normal-case italic opacity-50">(Required, max. 10 characters)</span>
                 </label>
                 <input
-                  type="nickname" id="nickname" 
+                  type="nickname" id="nickname" maxLength="10" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Nickname"/>
               </div>
@@ -51,7 +57,7 @@ export const CreateAccount = () => {
                   Email <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
-                  type="email" id="email" 
+                  type="email" id="email" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Email"/>
               </div>
@@ -62,7 +68,7 @@ export const CreateAccount = () => {
                   Password <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
-                  type="password" id="password" 
+                  type="password" id="password" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Password"
                 />
@@ -84,7 +90,7 @@ export const CreateAccount = () => {
 
         <div className="flex flex-wrap text-lg md:text-xl mt-6">
           <div className="w-2/3 md:w-1/2">
-            <span onClick={(e) => toggleComponent('Landing', e)} className="text-gray-600 font-bold italic cursor-pointer">
+            <span onClick={(e) => setView('Landing', e)} className="text-gray-600 font-bold italic cursor-pointer">
               <small>&lt; Back to Login Screen</small>
             </span>
           </div>          

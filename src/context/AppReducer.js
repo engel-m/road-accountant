@@ -1,16 +1,22 @@
 export default (state, action) => {
       const nextState = { ...state };
   switch(action.type) {      
-    case 'TOGGLE_COMPONENT':      
-      const componentName = action.payload.componentName;
-      nextState.renderStatus.currentView = componentName;
+    case 'SET_VIEW':      
+      const viewName = action.payload.viewName;
+      nextState.renderStatus.currentView = viewName;
       return nextState;
-    case 'TOGGLE_MODAL':
+    case 'SET_MODAL':
       const modalName = action.payload.modalName;
       nextState.renderStatus.modalView = modalName;
       return nextState;
     case 'SET_LOGIN_STATUS':
       nextState.loggedIn = action.payload.status;
+      return nextState;      
+    case 'SET_USER':
+      nextState.currentUser = action.payload.userData;
+      return nextState;     
+    case 'SET_GROUP':
+      nextState.currentGroup = action.payload.groupData;
       return nextState;      
     case 'DELETE_TRANSACTION':
       return {

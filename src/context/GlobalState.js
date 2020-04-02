@@ -23,9 +23,11 @@ const initialState = {
   ],
   loggedIn: false,
   renderStatus: {    
-    currentView: 'CreateAccount',
+    currentView: 'Landing',
     modalView: false,
-  }
+  },
+  currentUser: {},
+  currentGroup: {}
 }
 
 // Create context
@@ -36,20 +38,20 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Toggle Component Rendering (Render and remove modals f.e.)
-  function toggleComponent(componentName, e = '') {
+  function setView(viewName, e = '') {
     if (e !== '') {
       e.preventDefault()
     }
     dispatch({
-      type: 'TOGGLE_COMPONENT',
-      payload: {componentName}
+      type: 'SET_VIEW',
+      payload: {viewName}
     });
   }
 
-  function toggleModal(modalName, e) {
+  function setModal(modalName, e) {
     e.preventDefault();
     dispatch({
-      type: 'TOGGLE_MODAL',
+      type: 'SET_MODAL',
       payload: {modalName}
     });
   }
@@ -58,6 +60,20 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_LOGIN_STATUS',
       payload: {status}
+    });
+  }
+
+  function setUser(userData) {
+    dispatch({
+      type: 'SET_USER',
+      payload: {userData}
+    });
+  }
+
+  function setGroup(groupData) {
+    dispatch({
+      type: 'SET_GROUP',
+      payload: {groupData}
     });
   }
 
@@ -81,9 +97,13 @@ export const GlobalProvider = ({ children }) => {
     members: state.members,
     loggedIn: state.loggedIn,
     renderStatus: state.renderStatus,
-    toggleComponent,
-    toggleModal,
+    currentUser: state.currentUser,
+    currentGroup: state.currentGroup,    
+    setView,
+    setModal,
     setLoginStatus,
+    setUser,
+    setGroup,
     deleteTransaction,
     addTransaction
   }}>

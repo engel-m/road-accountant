@@ -16,12 +16,12 @@ const MemberCard = React.memo(props => {
 });
 
 export const MemberDisplay = () => {
-  const { members } = useContext(GlobalContext);
-  const { toggleModal } = useContext(GlobalContext);
+  const { members, currentGroup } = useContext(GlobalContext);
+  const { setModal } = useContext(GlobalContext);
 
   return (
     <>
-    <h4 className="animated fadeIn font-bold text-xl text-center">Group Members</h4>
+    <h4 className="animated fadeIn font-bold text-xl text-center">{currentGroup.name}: Group Members</h4>
     <div className="animated fadeIn w-full max-w-6xl mx-auto mt-6 flex flex-wrap flex-column justify-center">      
 
         { members.length > 0 && members.map( (groupmember, index) => (
@@ -29,7 +29,7 @@ export const MemberDisplay = () => {
         ))}
 
         {/* Add Button */}
-        <div onClick={(e) => toggleModal('AddMemberModal', e)} className="flex cursor-pointer w-1/3 md:w-1/5 flex-col py-2 md:py-4 my-2 
+        <div onClick={(e) => setModal('AddMemberModal', e)} className="flex cursor-pointer w-1/3 md:w-1/5 flex-col py-2 md:py-4 my-2 
         items-center bg-transparent border-2 border-gray-400 border-dashed rounded flex-shrink mx-1" id="addButton">
           <div aria-label="Add a member" data-balloon-pos="down" className="rounded-full h-12 w-12 bg-purple-400 text-center">
             <h1 className="font-bold text-white text-3xl">+</h1>            

@@ -1,8 +1,50 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
+import { auth, googleAuth, firestore } from '../../config/Firebase';
 
 export const LandingPage = () => {
-  const { toggleComponent } = useContext(GlobalContext);
+  const { setView, setUser, setGroup, currentUser } = useContext(GlobalContext);
+  const [error, setError] = useState('');
+
+  const formHandler = (e) => {
+    e.preventDefault();
+    setError('');
+    const form = document.querySelector('#login-form');
+    const email = form['email'].value || ''; 
+    const password = form['password'].value || '';   
+
+    auth.signInWithEmailAndPassword(email, password).then(returned => {      
+      firestore.collection("Users").doc(returned.user.uid).get().then( doc => {
+        setUser(doc.data()); 
+        return doc.data();
+      }).then( res => {
+        if (res.selectedGroup) {
+          firestore.collection("Groups").doc(res.selectedGroup).get().then( doc => {
+            setGroup(doc.data());
+            setView('MainAppView');
+          });         
+        } else {
+        setView('CreateGroup');
+        }
+        });
+    }).catch(error => {
+      setError(error.message);
+    });
+
+  };
+
+  const googleHandler = (e) => {
+    e.preventDefault();
+    setError('');
+
+    auth.signInWithPopup(googleAuth).then(function(returned) {      
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const token = returned.credential.accessToken;    
+      setView('MainAppView');  
+    }).catch(function(error) {
+      setError(error.message)
+    });
+  };
 
   return (
     <>
@@ -29,7 +71,8 @@ export const LandingPage = () => {
                     Github
                   </button> */}
                   <button
-                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
+                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 
+                     uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs" onClick={(e) => googleHandler(e)} 
                     type="button">
                   <img
                     alt="..."
@@ -45,7 +88,7 @@ export const LandingPage = () => {
                 <div className="text-gray-600 text-center mb-3 font-bold">
                   <small>Or log in with your email</small>
                 </div>
-                <form>
+                <form id="login-form" onSubmit={(e) => formHandler(e)}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-gray-700 text-xs font-bold mb-2"
@@ -53,7 +96,7 @@ export const LandingPage = () => {
                       Email
                     </label>
                     <input
-                      type="email"
+                      type="email" id="email"
                       className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                       placeholder="Email"/>
                   </div>
@@ -64,7 +107,7 @@ export const LandingPage = () => {
                       Password
                     </label>
                     <input
-                      type="password"
+                      type="password" id="password"
                       className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                       placeholder="Password"
                     />
@@ -80,10 +123,14 @@ export const LandingPage = () => {
                       </span>
                     </label>
                   </div>
+
+                  {error !== '' && <div className="bg-red-100 p-3 border-red-600 border rounded"><p className="text-red-600 text-center">
+                    {error}</p></div>}     
+
                   <div className="text-center mt-6">
                     <button
                       className="bg-purple-600 hover:bg-purple-500 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                      type="button">
+                      type="submit">
                       Log In
                     </button>
                   </div>
@@ -98,7 +145,7 @@ export const LandingPage = () => {
                 </span>
               </div>
               <div className="w-1/2 text-right">
-                <span onClick={(e) => toggleComponent('CreateAccount', e)} className="text-gray-600 font-bold italic cursor-pointer">
+                <span onClick={(e) => setView('CreateAccount', e)} className="text-gray-600 font-bold italic cursor-pointer">
                   <small>Create new account</small>
                 </span>
               </div>              

@@ -1,22 +1,22 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
-import { fbAuth } from '../config/Firebase';
+import { auth } from '../config/Firebase';
 
 export const LoginLogoutButton = (props) => {
-  const { toggleComponent, setLoginStatus, loggedIn } = useContext(GlobalContext);  
+  const { setView, setLoginStatus, loggedIn } = useContext(GlobalContext);  
 
   const logSwitch = () => {
-    if (loggedIn) {
-      fbAuth.signOut().then( () => {
+    if (auth.currentUser) {
+      auth.signOut().then( () => {
       setLoginStatus(false);
-      toggleComponent('Landing');
+      setView('Landing');
       }).catch(function(error) {
         console.log('Error Logging Out')
       });
     }
     else {
       setLoginStatus(true);
-      toggleComponent('MainAppView');
+      setView('MainAppView');
     }
   }
 
