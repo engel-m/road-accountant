@@ -26,8 +26,17 @@ const initialState = {
     currentView: 'Landing',
     modalView: false,
   },
-  currentUser: {},
-  currentGroup: {}
+  currentUser: {
+    displayName: '',
+    email: '',
+    groups: '',
+    selectedGroup: '',
+  },
+  currentGroup: {
+    creationDate: '',
+    groupMembers: '',
+    transactions: ''
+  }
 }
 
 // Create context
@@ -56,10 +65,10 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function setLoginStatus(status = false) {
+  function setLoggedIn(userId = false) {
     dispatch({
-      type: 'SET_LOGIN_STATUS',
-      payload: {status}
+      type: 'SET_LOGGED_IN',
+      payload: {userId}
     });
   }
 
@@ -101,7 +110,7 @@ export const GlobalProvider = ({ children }) => {
     currentGroup: state.currentGroup,    
     setView,
     setModal,
-    setLoginStatus,
+    setLoggedIn,
     setUser,
     setGroup,
     deleteTransaction,

@@ -1,43 +1,57 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../context/GlobalState';
 import { MemberDisplay } from '../MemberDisplay';
 import { IncomeExpenses } from '../IncomeExpenses';
 import { AddTransaction } from '../AddTransaction';
 import { TransactionList } from '../TransactionList';
+import { GroupSelect } from './GroupSelect';
 import { firestore, auth } from '../../config/Firebase';
 
 export const MainAppView = () => {
-  let userId = '';
-  let selectedGroup = '';
+  const { renderStatus, currentUser, setUser, setGroup, loggedIn } = useContext(GlobalContext);
+  const [groupSelect, setGroupSelect] = useState(false);
 
-  if (auth.currentUser.uid) {
-    userId = auth.currentUser.uid;    
-    firestore.collection("Users").doc(userId).get().then( doc => {
-      selectedGroup = doc.data().selectedGroup;
-    }).catch(function(error) {
-      console.log("Error getting document:", error);
-    });
-  }   
+  // auth.onAuthStateChanged( user => {
+  //   if (user) {
+  //     setLoggedIn(user.uid);
+  //   } else {
+  //     setLoggedIn(false);
+  //     console.log('Unsubscribed from User changes');
+  //   }
+  // }); 
 
-  // var userRef = firestore.collection("Users").doc("9fgcyTHsY8KOHegA3Umr");
+  useEffect(() => {     
+    let unsubscribeGroup = () => {
+      console.log('Never subscribed to group snapshot')
+    };
 
-    // docRef.get().then(function(doc) {
-    //     if (doc.exists) {
-    //         console.log("Document data:", doc.data());
-    //     } else {
-    //         // doc.data() will be undefined in this case
-    //         console.log("No such document!");
-    //     }
-    // }).catch(function(error) {
-    //     console.log("Error getting document:", error);
-    // });
+    let unsubscribeUser = firestore.collection("Users").doc(loggedIn).onSnapshot( userData => {
+      setUser(userData.data())
+      console.log('listening to user data');
+    });      
+
+    if (currentUser.selectedGroup !== '') {  
+      unsubscribeGroup = firestore.collection("Groups").doc(currentUser.selectedGroup).onSnapshot( groupData => {
+        setGroup(groupData.data())
+        console.log('Listening to group changes');
+      });       
+    }
+
+    return () => {
+      unsubscribeUser();
+      unsubscribeGroup();
+      console.log('Unmounted main view: unsubscribed to all!');
+    }
+  }, [currentUser.selectedGroup]);
 
   return (
     <>
-    <MemberDisplay />      
+    {!groupSelect && <MemberDisplay />}      
     <div className="animated fadeIn w-11/12 md:w-8/12 lg:w-4/12 mx-auto mt-8 flex flex-wrap flex-column content-center justify-center">
-      <IncomeExpenses />
-      <AddTransaction /> 
-      <TransactionList />      
+      {groupSelect && <GroupSelect />}        
+      {!groupSelect && <IncomeExpenses />} 
+      {!groupSelect && <AddTransaction />} 
+      {!groupSelect && <TransactionList />}       
     </div>
     </>
   )

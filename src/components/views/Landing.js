@@ -3,7 +3,7 @@ import { GlobalContext } from '../../context/GlobalState';
 import { auth, googleAuth, firestore } from '../../config/Firebase';
 
 export const LandingPage = () => {
-  const { setView, setUser, setGroup, currentUser } = useContext(GlobalContext);
+  const { setView, setLoggedIn } = useContext(GlobalContext);
   const [error, setError] = useState('');
 
   const formHandler = (e) => {
@@ -13,23 +13,30 @@ export const LandingPage = () => {
     const email = form['email'].value || ''; 
     const password = form['password'].value || '';   
 
-    auth.signInWithEmailAndPassword(email, password).then(returned => {      
-      firestore.collection("Users").doc(returned.user.uid).get().then( doc => {
-        setUser(doc.data()); 
-        return doc.data();
-      }).then( res => {
-        if (res.selectedGroup) {
-          firestore.collection("Groups").doc(res.selectedGroup).get().then( doc => {
-            setGroup(doc.data());
-            setView('MainAppView');
-          });         
-        } else {
-        setView('CreateGroup');
-        }
-        });
-    }).catch(error => {
-      setError(error.message);
+    auth.signInWithEmailAndPassword(email, password).then( (returned) => {
+      setLoggedIn(returned.user.uid);
+      setView('MainAppView');
     });
+      
+    //   .then(returned => {      
+    //   firestore.collection("Users").doc(returned.user.uid).get().then( doc => {
+    //     setUser(doc.data()); 
+    //     return doc.data();
+    //   }).then( userData => {
+    //     if (userData.selectedGroup) {
+    //       firestore.collection("Groups").doc(userData.selectedGroup).get().then( doc => {
+    //         setGroup(doc.data());
+    //         setView('MainAppView');
+    //       });         
+    //     } else {
+    //     setView('CreateGroup');
+    //     }
+    //   }).catch(error => {
+    //     setError(error.message);
+    //   });
+    // }).catch(error => {
+    //   setError(error.message);
+    // });
 
   };
 

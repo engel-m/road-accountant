@@ -1,6 +1,7 @@
 import { LandingPage } from '../components/views/Landing';
-import { MainAppView } from '../components/views/MainAppView';
 import { CreateAccount } from '../components/views/CreateAccount';
+import { MainAppView } from '../components/views/MainAppView';
+import { GroupSelect } from '../components/views/GroupSelect';
 
 export const viewSwitch = (currentView) => {
   switch (currentView) {
@@ -10,6 +11,8 @@ export const viewSwitch = (currentView) => {
     return CreateAccount;
   case 'MainAppView': 
     return MainAppView;
+  case 'GroupSelect': 
+    return GroupSelect;
   default:
     return 'none';
   } 

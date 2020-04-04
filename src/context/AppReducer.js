@@ -9,8 +9,8 @@ export default (state, action) => {
       const modalName = action.payload.modalName;
       nextState.renderStatus.modalView = modalName;
       return nextState;
-    case 'SET_LOGIN_STATUS':
-      nextState.loggedIn = action.payload.status;
+    case 'SET_LOGGED_IN':
+      nextState.loggedIn = action.payload.userId;
       return nextState;      
     case 'SET_USER':
       nextState.currentUser = action.payload.userData;
