@@ -31,11 +31,6 @@ const initialState = {
     email: '',
     groups: '',
     selectedGroup: '',
-  },
-  currentGroup: {
-    creationDate: '',
-    groupMembers: '',
-    transactions: ''
   }
 }
 
@@ -79,12 +74,12 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function setGroup(groupData) {
-    dispatch({
-      type: 'SET_GROUP',
-      payload: {groupData}
-    });
-  }
+  // function setCurrentGroup(groupData) {
+  //   dispatch({
+  //     type: 'SET_CURRENT_GROUP',
+  //     payload: {groupData}
+  //   });
+  // }
 
   // Actions
   function deleteTransaction(id) {
@@ -112,7 +107,7 @@ export const GlobalProvider = ({ children }) => {
     setModal,
     setLoggedIn,
     setUser,
-    setGroup,
+    // setCurrentGroup,
     deleteTransaction,
     addTransaction
   }}>

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { auth, googleAuth, firestore } from '../../config/Firebase';
+import { auth, googleAuth } from '../../config/Firebase';
 
 export const LandingPage = () => {
-  const { setView, setLoggedIn } = useContext(GlobalContext);
+  const { setView } = useContext(GlobalContext);
   const [error, setError] = useState('');
 
   const formHandler = (e) => {
@@ -12,9 +12,7 @@ export const LandingPage = () => {
     const form = document.querySelector('#login-form');
     const email = form['email'].value || ''; 
     const password = form['password'].value || '';   
-
     auth.signInWithEmailAndPassword(email, password).then( (returned) => {
-      setLoggedIn(returned.user.uid);
       setView('MainAppView');
     });
       
@@ -43,10 +41,9 @@ export const LandingPage = () => {
   const googleHandler = (e) => {
     e.preventDefault();
     setError('');
-
     auth.signInWithPopup(googleAuth).then(function(returned) {      
       // This gives you a Google Access Token. You can use it to access the Google API.
-      const token = returned.credential.accessToken;    
+      // const token = returned.credential.accessToken;    
       setView('MainAppView');  
     }).catch(function(error) {
       setError(error.message)
@@ -58,8 +55,8 @@ export const LandingPage = () => {
         <div className="flex content-center items-center justify-center h-full animated fadeIn mb-10">
           <div className="w-full md:w-8/12 lg:w-3/12 px-4 md:pt-32">
 
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-2 shadow-lg rounded-lg border-0">
+              <div className="rounded-t mb-0 px-6 py-4">
                 <div className="text-center mb-3">
                   <small className="text-gray-600 font-bold">
                     Log in with
@@ -78,20 +75,20 @@ export const LandingPage = () => {
                     Github
                   </button> */}
                   <button
-                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 
+                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 
                      uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs" onClick={(e) => googleHandler(e)} 
                     type="button">
                   <img
                     alt="..."
                     className="w-5 mr-1"
-                    src="https://demos.creative-tim.com/tailwindcss-starter-project/static/media/google.87be59a1.svg"/>
+                    src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
                   Google
                   </button>
                 </div>
                 <hr className="mt-6 border-b-1 border-gray-400" />
               </div>
 
-              <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+              <div className="flex-auto px-4 lg:px-10 py-6 pt-0">
                 <div className="text-gray-600 text-center mb-3 font-bold">
                   <small>Or log in with your email</small>
                 </div>

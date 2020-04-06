@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { firestore, auth } from '../../config/Firebase';
+import { auth } from '../../config/Firebase';
 
 export const CreateAccount = () => {
   const { setView } = useContext(GlobalContext); 

@@ -15,9 +15,9 @@ export default (state, action) => {
     case 'SET_USER':
       nextState.currentUser = action.payload.userData;
       return nextState;     
-    case 'SET_GROUP':
-      nextState.currentGroup = action.payload.groupData;
-      return nextState;      
+    // case 'SET_CURRENT_GROUP':
+    //   nextState.currentGroup = action.payload.groupData;
+    //   return nextState;      
     case 'DELETE_TRANSACTION':
       return {
         ...state,
