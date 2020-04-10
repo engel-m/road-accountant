@@ -18,8 +18,8 @@ export const CreateAccount = () => {
       if(returned.user && returned.additionalUserInfo.isNewUser === true){
         firestore.collection("Users").doc(returned.user.uid).set({
           displayName: nickname,
-          selectedGroup: ''
-        }).then( setView('CreateGroup') )
+          selectedGroup: null
+        }).then( setView('GroupSelect') )
         returned.user.updateProfile({
           displayName: nickname
         }).catch(error => {
@@ -61,7 +61,7 @@ export const CreateAccount = () => {
                   Email <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
-                  type="email" id="email" required
+                  type="email" id="email" minLength="4" maxLength="60" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Email"/>
               </div>
@@ -72,7 +72,7 @@ export const CreateAccount = () => {
                   Password <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
-                  type="password" id="password" required
+                  type="password" id="password" minLength="6" maxLength="16" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Password"
                 />

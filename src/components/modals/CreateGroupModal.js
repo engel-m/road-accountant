@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { auth, firestore } from "../../config/Firebase.js";
 
 export const CreateGroupModal = (props) => {  

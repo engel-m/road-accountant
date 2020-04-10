@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { auth, firestore } from "../config/Firebase.js";
-import { GlobalContext } from './GlobalState';
 import { LoadingScreen } from "../components/views/LoadingScreen.js";
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { setView } = useContext(GlobalContext);
   const [authUser, setAuthUser] = useState(auth.currentUser);
   const [pendingAuth, setPendingAuth] = useState(true);
   
   let unsubscribeUser = useRef(null);
-  let reroute = useRef(setView);
   
   useEffect(() => {
     auth.onAuthStateChanged( (user) => {
@@ -24,10 +21,13 @@ export const AuthProvider = ({ children }) => {
         unsubscribeUser.current = 
           firestore.collection("Users").doc(user.uid).onSnapshot( userData => {
             setAuthUser(userData.data())
+            setAuthUser(prevState => ({
+                  ...prevState,    
+                  uid: user.uid       
+            }))
           }, function(error) {
             console.log(error)
-          });           
-        reroute.current('MainAppView')
+          });                   
         setPendingAuth(false)      
       } 
     });
