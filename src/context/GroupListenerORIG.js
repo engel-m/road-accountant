@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { firestore } from "../config/Firebase.js";
+import { GlobalContext } from './GlobalState';
 import { AuthContext } from './AuthContext';
-import { LoadingScreen } from "../components/views/LoadingScreen.js";
+import { LoadingScreen } from "../components/LoadingScreen.js";
 
 export const GroupListener = React.createContext();
 
@@ -11,33 +12,41 @@ export const GroupListenerProvider = ({ children }) => {
   const [currentGroup, setCurrentGroup] = useState(null);
   const [pendingGroup, setPendingGroup] = useState(true);
 
-  let unsubscribeGroup = useRef(null);
+  let unsubscribeGroup = null;
 
   useEffect(() => {    
     if (!authUser) {
       setCurrentGroup(null);
-      unsubscribeGroup.current && unsubscribeGroup.current();
-      unsubscribeGroup.current = null;
+      unsubscribeGroup && unsubscribeGroup();
+      unsubscribeGroup = null;
       setPendingGroup(false);        
     }
 
     if (authUser && (authUser.selectedGroup !== '')) {      
-      unsubscribeGroup.current && unsubscribeGroup.current();
+      unsubscribeGroup && unsubscribeGroup();
 
-      unsubscribeGroup.current =
+      unsubscribeGroup =
         firestore.collection("Groups").doc(authUser.selectedGroup).onSnapshot( groupData => {
-          setCurrentGroup(groupData.data())    
+          setCurrentGroup(groupData.data())
+          console.log('Listening to group data')               
         }, function(error) {
           console.log(error)
         });
       
-      setPendingGroup(false); 
+      setTimeout( () => {setPendingGroup(false)}, 600); 
     }
 
     return () => {
-      unsubscribeGroup.current && unsubscribeGroup.current();
-      unsubscribeGroup.current = null;      
-    };   
+      unsubscribeGroup && unsubscribeGroup();
+      unsubscribeGroup = null;      
+    };
+
+    // if (authUser.selectedGroup === null || authUser.selectedGroup === '' ){      
+    //   return () => {
+    //     unsubscribeGroup && unsubscribeGroup(); 
+    //     setUnsubscribeGroup(null);     
+    //   };
+    // }          
 
   }, [authUser]);
 

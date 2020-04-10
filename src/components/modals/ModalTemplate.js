@@ -21,8 +21,8 @@ export const ModalTemplate = () => {
           <span className="text-sm">(Esc)</span>
         </div>
 
-        {renderStatus.modalView === 'AddMemberModal' && <AddMemberModal />}
-        {renderStatus.modalView === 'CreateGroupModal' && <CreateGroupModal />}
+        {renderStatus.modalView === 'AddMemberModal' && <AddMemberModal setModal={setModal} />}
+        {renderStatus.modalView === 'CreateGroupModal' && <CreateGroupModal setModal={setModal} />}
 
       </div>
     </div>

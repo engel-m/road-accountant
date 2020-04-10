@@ -1,4 +1,4 @@
-export const tailwindColors = ['black','gray-300','gray-400','gray-500','gray-600','gray-700',
+export const tailwindColors = ['black','gray-600','gray-700',
 'gray-800','gray-900','red-300','red-400','red-500','red-600','red-700','red-800','red-900',
 'orange-300','orange-400','orange-500','orange-600','orange-700','orange-800','orange-900',
 'yellow-300','yellow-400','yellow-500','yellow-600','yellow-700','yellow-800','yellow-900',

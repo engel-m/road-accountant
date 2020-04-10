@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { auth, firestore } from "../config/Firebase.js";
 import { GlobalContext } from './GlobalState';
-import { LoadingScreen } from "../components/views/LoadingScreen.js";
+import { LoadingScreen } from "../components/LoadingScreen.js";
 
 export const AuthContext = React.createContext();
 
@@ -10,31 +10,31 @@ export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(auth.currentUser);
   const [pendingAuth, setPendingAuth] = useState(true);
   
-  let unsubscribeUser = useRef(null);
-  let reroute = useRef(setView);
-  
+  let unsubscribeUser = null;
+
   useEffect(() => {
-    auth.onAuthStateChanged( (user) => {
+    auth.onAuthStateChanged((user) => {
       if (!user) {        
         setAuthUser(null)
-        unsubscribeUser.current && unsubscribeUser.current();
-        unsubscribeUser.current = null;
+        unsubscribeUser && unsubscribeUser();
+        unsubscribeUser = null;
+        console.log("User is logged Out")     
         setPendingAuth(false)
       } else if (user) { 
-        unsubscribeUser.current = 
+        unsubscribeUser = 
           firestore.collection("Users").doc(user.uid).onSnapshot( userData => {
             setAuthUser(userData.data())
+            console.log('Listening to user data after auth');
           }, function(error) {
             console.log(error)
           });           
-        reroute.current('MainAppView')
+        setView('MainAppView')
         setPendingAuth(false)      
       } 
     });
     
     return () => {
-      unsubscribeUser.current && unsubscribeUser.current();
-      unsubscribeUser.current = null; 
+      unsubscribeUser && unsubscribeUser();
     };
 
   }, []);

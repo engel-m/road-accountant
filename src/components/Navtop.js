@@ -52,8 +52,9 @@ export const Navtop = () => {
               </div>
               <div id="main-nav" className="w-full text-right flex-grow lg:flex items-center lg:w-auto hidden  ">
                   <div className="lg:text-base lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                    {currentView === 'MainAppView' &&  <NavLink linkText={'+ CREATE GROUP'} linkType={'Modal'} linkTo={'CreateGroupModal'} />}
-                    {authUser ? <NavLink linkText={'>MY GROUPS'} linkType={'View'} linkTo={'MainAppView'} /> 
+                    {authUser && <NavLink linkText={'+ CREATE GROUP'} linkType={'Modal'} linkTo={'CreateGroupModal'} />}
+                    {authUser ? currentView === 'GroupSelect' ? <NavLink linkText={'>MY GROUPS'} linkType={'View'} linkTo={'MainAppView'} />
+                      : <NavLink linkText={'>MY GROUPS'} linkType={'View'} linkTo={'GroupSelect'} /> 
                       : <NavLink linkText={'CREATE ACCOUNT'} linkType={'View'} linkTo={'CreateAccount'} />}
                     <LoginLogoutButton />                  
                     <NavLink linkText={'ABOUT'} linkType={'View'} linkTo={'About'} />

@@ -1,7 +1,8 @@
 import React from 'react';
 
 
-export const AddMemberModal = (props) => {  
+export const AddMemberModal = (props) => {   
+  const setModal = props.setModal;
   
   const formHandler = (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ export const AddMemberModal = (props) => {
 
       <div className="flex justify-between items-center pb-3">
         <p className="text-2xl text-indigo-600 font-bold">ADD GROUP MEMBER</p>
-        <div onClick={(e) => props.setModal(false, e)} className="modal-close cursor-pointer z-50">
+        <div onClick={(e) => setModal(false, e)} className="modal-close cursor-pointer z-50">
           <p className="font-black text-gray-700">X</p>
         </div>
       </div>

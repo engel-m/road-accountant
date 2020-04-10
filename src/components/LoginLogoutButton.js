@@ -6,21 +6,20 @@ import { auth } from '../config/Firebase'
 
 export const LoginLogoutButton = () => {
   const { setView } = useContext(GlobalContext); 
-  const { authUser, unsubscribeUser, setUnsubscribeUser } = useContext(AuthContext); 
-  const { unsubscribeGroup, setUnsubscribeGroup} = useContext(GroupListener); 
+  const { authUser, unsubscribeUser } = useContext(AuthContext); 
+  const { unsubscribeGroup } = useContext(GroupListener); 
  
   const logSwitch = () => {
     // Log out functionality
     if (authUser) {
-      if (unsubscribeUser) {
-        unsubscribeUser();
-        setUnsubscribeUser(null);
+      if (unsubscribeUser.current) {
+        unsubscribeUser.current();
+        unsubscribeUser.current = null;
       }     
-      if (unsubscribeGroup) {
-        unsubscribeGroup();
-        setUnsubscribeGroup(null);
+      if (unsubscribeGroup.current) {
+        unsubscribeGroup.current();
+        unsubscribeGroup.current = null;
       } 
-
       auth.signOut()
       .then( () => {
         setView('Landing');

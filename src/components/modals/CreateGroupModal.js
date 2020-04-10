@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { GlobalContext } from '../../context/GlobalState';
 import { auth, firestore } from "../../config/Firebase.js";
 
-export const CreateGroupModal = () => {  
-  const { setModal } = useContext(GlobalContext); 
+export const CreateGroupModal = (props) => {  
   const [error, setError] = useState('');  
+  const  setModal  = props.setModal; 
   
   const formHandler = (e) => {
     e.preventDefault();

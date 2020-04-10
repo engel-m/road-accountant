@@ -22,7 +22,7 @@ export const MemberDisplay = () => {
 
   return (
     <>
-    <h4 className="animated fadeIn font-bold text-xl text-center">Group: {currentGroup.name}</h4>
+    <h4 className="animated fadeIn font-bold italic text-xl text-center">{currentGroup.name}</h4>
     <h4 className="animated fadeIn italic text-base text-center mt-4">Members:</h4>
     <div className="animated fadeIn w-full max-w-6xl mx-auto flex flex-wrap flex-column justify-center">      
         
