@@ -21,7 +21,6 @@ const initialState = {
       email: "bertvis@gmail.com"
     }
   ],
-  loggedIn: false,
   renderStatus: {    
     currentView: 'Landing',
     modalView: false,
@@ -52,21 +51,16 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function setModal(modalName, e) {
-    e.preventDefault();
+  function setModal(modalName, e = '') {
+    if (e !== '') {
+      e.preventDefault()
+    }
     dispatch({
       type: 'SET_MODAL',
       payload: {modalName}
     });
   }
-
-  function setLoggedIn(userId = false) {
-    dispatch({
-      type: 'SET_LOGGED_IN',
-      payload: {userId}
-    });
-  }
-
+  
   function setUser(userData) {
     dispatch({
       type: 'SET_USER',
@@ -74,14 +68,6 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  // function setCurrentGroup(groupData) {
-  //   dispatch({
-  //     type: 'SET_CURRENT_GROUP',
-  //     payload: {groupData}
-  //   });
-  // }
-
-  // Actions
   function deleteTransaction(id) {
     dispatch({
       type: 'DELETE_TRANSACTION',
@@ -99,15 +85,12 @@ export const GlobalProvider = ({ children }) => {
   return (<GlobalContext.Provider value={{
     transactions: state.transactions,
     members: state.members,
-    loggedIn: state.loggedIn,
     renderStatus: state.renderStatus,
     currentUser: state.currentUser,
     currentGroup: state.currentGroup,    
     setView,
     setModal,
-    setLoggedIn,
     setUser,
-    // setCurrentGroup,
     deleteTransaction,
     addTransaction
   }}>

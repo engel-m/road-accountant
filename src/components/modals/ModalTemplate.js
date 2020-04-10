@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
 import { AddMemberModal } from './AddMemberModal';
+import { CreateGroupModal } from './CreateGroupModal';
 
 export const ModalTemplate = () => {
   const { renderStatus, setModal } = useContext(GlobalContext); 
@@ -20,7 +21,8 @@ export const ModalTemplate = () => {
           <span className="text-sm">(Esc)</span>
         </div>
 
-        {renderStatus.modalView === 'AddMemberModal' && <AddMemberModal setModal={setModal} />}
+        {renderStatus.modalView === 'AddMemberModal' && <AddMemberModal />}
+        {renderStatus.modalView === 'CreateGroupModal' && <CreateGroupModal />}
 
       </div>
     </div>

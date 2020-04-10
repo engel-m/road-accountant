@@ -14,8 +14,8 @@ function App() {
     <>
     <AuthProvider>
       <GroupListenerProvider>
-        <Navtop />             
-        <View />
+        <Navtop /> 
+        <View />      
         {renderStatus.modalView !== false && <ModalTemplate />} 
       </GroupListenerProvider>
     </AuthProvider>

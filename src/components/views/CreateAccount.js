@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { auth } from '../../config/Firebase';
+import { auth, firestore } from '../../config/Firebase';
 
 export const CreateAccount = () => {
   const { setView } = useContext(GlobalContext); 
@@ -16,11 +16,15 @@ export const CreateAccount = () => {
 
     auth.createUserWithEmailAndPassword(email, password).then(returned => {
       if(returned.user && returned.additionalUserInfo.isNewUser === true){
+        firestore.collection("Users").doc(returned.user.uid).set({
+          displayName: nickname,
+          selectedGroup: ''
+        }).then( setView('CreateGroup') )
         returned.user.updateProfile({
           displayName: nickname
-        }).then(
-          setView('CreateGroup')
-        )
+        }).catch(error => {
+          setError(error.message)
+        })   
       }
     }).catch(error => {
       setError(error.message)

@@ -15,27 +15,6 @@ export const LandingPage = () => {
     auth.signInWithEmailAndPassword(email, password).then( (returned) => {
       setView('MainAppView');
     });
-      
-    //   .then(returned => {      
-    //   firestore.collection("Users").doc(returned.user.uid).get().then( doc => {
-    //     setUser(doc.data()); 
-    //     return doc.data();
-    //   }).then( userData => {
-    //     if (userData.selectedGroup) {
-    //       firestore.collection("Groups").doc(userData.selectedGroup).get().then( doc => {
-    //         setGroup(doc.data());
-    //         setView('MainAppView');
-    //       });         
-    //     } else {
-    //     setView('CreateGroup');
-    //     }
-    //   }).catch(error => {
-    //     setError(error.message);
-    //   });
-    // }).catch(error => {
-    //   setError(error.message);
-    // });
-
   };
 
   const googleHandler = (e) => {
@@ -63,17 +42,6 @@ export const LandingPage = () => {
                   </small>
                 </div>
                 <div className="btn-wrapper text-center">
-                  {/* <button
-                    className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src="https://demos.creative-tim.com/tailwindcss-starter-project/static/media/github.4ffd4fe7.svg"
-                    />
-                    Github
-                  </button> */}
                   <button
                     className="bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 
                      uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs" onClick={(e) => googleHandler(e)} 

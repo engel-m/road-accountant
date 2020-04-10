@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
+import { AuthContext } from '../context/AuthContext';
 import { NavLink } from './NavLink';
 import { LoginLogoutButton } from './LoginLogoutButton';
+
   
-export const Navtop = () => {
+export const Navtop = () => {   
   const { renderStatus, loggedIn, setView } = useContext(GlobalContext); 
+  const { authUser } = useContext(AuthContext);
   const currentView = renderStatus.currentView; 
 
   const toHomescreen = () => {
@@ -49,10 +52,11 @@ export const Navtop = () => {
               </div>
               <div id="main-nav" className="w-full text-right flex-grow lg:flex items-center lg:w-auto hidden  ">
                   <div className="lg:text-base lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
-                    {currentView === 'MainAppView' &&  <NavLink linkText={'+ CREATE GROUP'} linkTo={'GroupSelect'} />}
-                    {loggedIn ? <NavLink linkText={'>MY GROUPS'} linkTo={'MainAppView'} /> : <NavLink linkText={'CREATE ACCOUNT'} linkTo={'CreateAccount'} />}
+                    {currentView === 'MainAppView' &&  <NavLink linkText={'+ CREATE GROUP'} linkType={'Modal'} linkTo={'CreateGroupModal'} />}
+                    {authUser ? <NavLink linkText={'>MY GROUPS'} linkType={'View'} linkTo={'MainAppView'} /> 
+                      : <NavLink linkText={'CREATE ACCOUNT'} linkType={'View'} linkTo={'CreateAccount'} />}
                     <LoginLogoutButton />                  
-                    <NavLink linkText={'ABOUT'} linkTo={'About'} />
+                    <NavLink linkText={'ABOUT'} linkType={'View'} linkTo={'About'} />
                   </div>
               </div>
           </nav>
