@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { firestore } from '../../config/Firebase';
 import { AuthContext } from '../../context/AuthContext';
 import { GlobalContext } from '../../context/GlobalState';
@@ -8,7 +8,7 @@ import { GroupCard } from "../GroupCard.js";
 export const GroupSelect = () => {
   const { authUser } = useContext(AuthContext);
   const [groupArray, setGroupArray] = useState(null);
-  const [loadingGroups, setLoadingGroups] = useState(true);
+  const [loadingGroups, setLoadingGroups] = useState(true);  
   const { setView, setModal } = useContext(GlobalContext);
 
   const selectGroup = (id, e = '') => {
@@ -25,18 +25,34 @@ export const GroupSelect = () => {
     : setView('MainAppView')   
   };
 
-  useEffect(() => {
-    firestore.collection("Groups").where("groupMembers." + authUser.uid + ".role", ">", "''").get().then( docs => {
-      let returned = [];
-      docs.forEach(function(doc) {
-        let data = doc.data();
-        returned.push({ ...data, groupId: doc.id});
-      });   
-      returned.length >= 1 && setGroupArray(returned);
-      setLoadingGroups(false);
+  const deleteGroup = (id, e = '') => {
+    (e !== '') && e.preventDefault();
+    firestore.collection('Groups').doc(id).delete().then( () => {
+      getGroups.current();
     }).catch( (error) => {
       console.log(error);
-    });
+    })     
+  };
+
+  const getGroups = useRef(
+    () => {
+      setLoadingGroups(true);
+      firestore.collection("Groups").where("groupMembers." + authUser.uid + ".role", ">", "''").get().then( docs => {
+        let returned = [];
+        docs.forEach(function(doc) {
+          let data = doc.data();
+          returned.push({ ...data, groupId: doc.id});
+        });   
+        returned.length >= 1 && setGroupArray(returned);
+        setLoadingGroups(false);
+      }).catch( (error) => {
+        console.log(error);
+      });
+    }
+  );
+
+  useEffect(() => {
+    getGroups.current();
   }, [authUser]);
 
   if (loadingGroups) {
@@ -57,7 +73,8 @@ export const GroupSelect = () => {
 
     {/* Group Cards */}
     { groupArray && groupArray.map( (group, index) => (
-          <GroupCard key={group.groupId} selectGroup={selectGroup} groupId={group.groupId} userId={authUser.uid} name={group.name} groupMembers={group.groupMembers} />
+          <GroupCard key={group.groupId} selectGroup={selectGroup} deleteGroup={deleteGroup}
+            groupId={group.groupId} userId={authUser.uid} name={group.name} groupMembers={group.groupMembers} />
         ))}
     </div>   
     </>

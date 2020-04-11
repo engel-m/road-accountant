@@ -1,8 +1,7 @@
-import React from 'react';
-import { firestore } from '../config/Firebase';
+import React, { useState } from 'react';
 
 export const GroupCard = React.memo(props => {
-
+  const [confirmAlert, setConfirmAlert] = useState(false);
   let memberNames = [];
   let memberCount = Object.keys(props.groupMembers).length;  
 
@@ -10,37 +9,36 @@ export const GroupCard = React.memo(props => {
     return memberNames.push(value.displayName);
   });
   
-  return (      
-    <div className="relative flex w-full pt-4 pb-5 md:pb-1 my-2 items-center bg-white shadow-md rounded flex-shrink mx-1 
+  return (   
+    <>   
+    <div className="relative flex w-full pt-4 pb-5 md:pb-1 my-2 items-center bg-white shadow-md rounded flex-shrink mx-1
       hover:bg-indigo-100 hover:shadow-xl border-2 border-transparent hover:border-indigo-200 focus:bg-indigo-100 focus:shadow-xl">
-      <h1 onClick={(e) => props.selectGroup(props.groupId, e)}
-        aria-label={memberNames.map(name => name).join(' ')} data-balloon-length="small" data-balloon-pos="right"
-        className="absolute tooltip-grey cursor-pointer top-0 left-0 h-full w-1/6 mt-1 ml-2 text-xs md:text-sm text-green-600 font-bold tooltip-grey">
-        {memberCount} {memberCount > 1 ? 'Members' : 'Member' } </h1>
+      <p onClick={(e) => props.selectGroup(props.groupId, e)}
+        aria-label={memberNames.map(name => name).join(', ')} data-balloon-length="small" data-balloon-pos="right"
+        className="block absolute tooltip-grey cursor-pointer top-0 ml-2 h-full w-1/5 text-xs md:text-sm text-green-600 font-bold tooltip-grey">
+        {memberCount} {memberCount > 1 ? 'Members' : 'Member' } </p>
 
-      <div onClick={(e) => props.selectGroup(props.groupId, e)} className="block h-12 w-2/3 text-center cursor-pointer">
-        <h1 className="font-bold text-indigo-800 text-sm md:text-xl mt-1">{props.name}</h1>            
+      <div onClick={(e) => props.selectGroup(props.groupId, e)} className="block w-3/5 h-12 -ml-2 text-center cursor-pointer">
+        <p className="font-bold text-indigo-800 text-sm md:text-xl">{props.name}</p>            
       </div>
-      <h1 className={"tooltip-grey font-bold text-lg md:text-xl my-auto"}>TEST</h1>
+      <div onClick={() => setConfirmAlert(!confirmAlert)} className="absolute right-0 bottom-0 mr-2 mb-6 md:mb-3 rounded-lg bg-red-200 py-2 px-2 mb-3 hover:bg-red-700 text-red-400 hover:text-white">
+        <p className={"font-bold text-sm md:text-lg cursor-pointer"}>Delete</p>
+      </div>
     </div>
+
+    <div className={"flex flex-column h-auto p-3 w-11/12 bg-red-200 text-bold flex-wrap justify-center text-center rounded-lg text-xl " + ( confirmAlert ? "" : "hidden") + " "}>
+      <h1 className={"w-full block font-bold text-red-700 text-lg md:text-lg mb-4"}>Are you sure you want to delete group: {props.name}?</h1>
+      <div onClick={() => setConfirmAlert(false)} 
+        className="block mx-2 w-5/12 bg-red-600 p-2 rounded-lg text-white focus:outline-none cursor-pointer shadow hover:shadow-inner 
+          border border-transparent hover:border-red-700">Cancel</div>
+      <div onClick={(e) => props.deleteGroup(props.groupId, e)}  
+        className="block mx-2 w-2/12 bg-indigo-800 p-2 rounded-lg text-white focus:outline-none cursor-pointer shadow hover:shadow-inner 
+          border border-transparent hover:border-indigo-900">&#10003;</div>
+    </div>
+    </>
   );
 });
 
-  // return (
-  //   <>
-  //   <div className="animated fadeIn w-11/12 md:w-8/12 lg:w-4/12 mx-auto mt-8 flex flex-wrap flex-column content-center justify-center">   
-        
-  //       {/* Add Button */}
-  //       <div onClick={(e) => setModal('AddMemberModal', e)} className="flex cursor-pointer w-1/3 md:w-1/5 flex-col py-2 md:py-4 my-2 
-  //       items-center bg-transparent border-2 border-gray-400 border-dashed rounded flex-shrink mx-1" id="addButton">
-  //         <div aria-label="Add a member" data-balloon-pos="down" className="rounded-full h-12 w-12 bg-purple-400 text-center">
-  //           <h1 className="font-bold text-white text-3xl">+</h1>            
-  //         </div>
-  //         <h1 aria-label="Add a member" data-balloon-pos="down" className="hidden md:inline tooltip-grey font-bold text-gray-600 text-xl md:text-2xl my-auto">Click to add</h1>
-  //       </div>
 
-  //   </div>
-  //   </>
-  // )
 
 

@@ -56,18 +56,6 @@ export const CreateGroupModal = (props) => {
             placeholder="Group Name"/>
         </div>
 
-        {/* <div className="relative w-full mb-3">
-          <label
-            className="block uppercase text-gray-700 text-xs font-bold mb-2"
-            htmlFor="grid-password">
-            Email <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
-          </label>
-          <input
-            type="email"
-            className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-            placeholder="Email"/>
-        </div> */}
-
         {error !== '' && <div className="bg-red-100 p-3 border-red-600 border rounded"><p className="text-red-600 text-center">
           {error}</p></div>}   
 
