@@ -16,13 +16,14 @@ export const CreateAccount = () => {
 
     auth.createUserWithEmailAndPassword(email, password).then(returned => {
       if(returned.user && returned.additionalUserInfo.isNewUser === true){
-        firestore.collection("Users").doc(returned.user.uid).set({
-          displayName: nickname,
-          selectedGroup: null
-        }).then( setView('GroupSelect') )
+        firestore.collection("Users").doc(returned.user.uid).set({ 
+          displayName: nickname, email, selectedGroup: null
+        })      
         returned.user.updateProfile({
           displayName: nickname
-        }).catch(error => {
+        })    
+        .then( firestore.collection('Notifications').doc(returned.user.uid).set({ email, displayName: nickname })
+        ).catch(error => {
           setError(error.message)
         })   
       }

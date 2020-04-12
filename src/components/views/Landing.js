@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { auth, googleAuth } from '../../config/Firebase';
+import { auth, googleAuth, firestore } from '../../config/Firebase';
 
 export const LandingPage = () => {
   const { setView } = useContext(GlobalContext);
@@ -20,11 +20,9 @@ export const LandingPage = () => {
   const googleHandler = (e) => {
     e.preventDefault();
     setError('');
-    auth.signInWithPopup(googleAuth).then(function(returned) {      
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      // const token = returned.credential.accessToken;    
-      setView('MainAppView');  
-    }).catch(function(error) {
+    auth.signInWithPopup(googleAuth).then( (returned) => {  
+      firestore.collection('Notifications').doc(returned.user.uid).set({ email: returned.user.email, displayName: returned.user.displayName }, { merge: true })  
+    }).catch( (error) => {
       setError(error.message)
     });
   };

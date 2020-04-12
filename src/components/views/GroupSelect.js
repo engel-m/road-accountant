@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { firestore } from '../../config/Firebase';
 import { AuthContext } from '../../context/AuthContext';
 import { GlobalContext } from '../../context/GlobalState';
@@ -28,14 +28,18 @@ export const GroupSelect = () => {
   const deleteGroup = (id, e = '') => {
     (e !== '') && e.preventDefault();
     firestore.collection('Groups').doc(id).delete().then( () => {
-      getGroups.current();
+      getGroups(authUser);
+    }).then( () => {
+      if (id === authUser.selectedGroup) {
+        firestore.collection('Users').doc(authUser.uid).update({ selectedGroup: null })
+      }    
     }).catch( (error) => {
       console.log(error);
     })     
   };
 
-  const getGroups = useRef(
-    () => {
+  const getGroups = (authUser) => {
+    if (authUser) {
       setLoadingGroups(true);
       firestore.collection("Groups").where("groupMembers." + authUser.uid + ".role", ">", "''").get().then( docs => {
         let returned = [];
@@ -43,17 +47,19 @@ export const GroupSelect = () => {
           let data = doc.data();
           returned.push({ ...data, groupId: doc.id});
         });   
-        returned.length >= 1 && setGroupArray(returned);
+        returned.length >= 1 ? setGroupArray(returned) : setGroupArray(null);
         setLoadingGroups(false);
       }).catch( (error) => {
         console.log(error);
       });
     }
-  );
+  }
 
   useEffect(() => {
-    getGroups.current();
-  }, [authUser]);
+    authUser && getGroups(authUser);
+    console.log('Effect fired')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loadingGroups) {
     return <LoadingScreen />
