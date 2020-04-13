@@ -12,11 +12,10 @@ export const GroupListenerProvider = ({ children }) => {
 
   const [currentGroup, setCurrentGroup] = useState(null);
   const [pendingGroup, setPendingGroup] = useState(true);
-
+  
   let unsubscribeGroup = useRef(null);
-  let reroute = useRef(setView);
-
-  useEffect(() => {    
+ 
+  useEffect(() => {   
     if (!authUser) {
       setCurrentGroup(null);
       unsubscribeGroup.current && unsubscribeGroup.current();
@@ -24,31 +23,33 @@ export const GroupListenerProvider = ({ children }) => {
       setPendingGroup(false);        
     }
 
-    if (authUser) {      
-      if (authUser.selectedGroup) {
+    if (authUser) {  
+      if (authUser.selectedGroup) {         
         unsubscribeGroup.current && unsubscribeGroup.current();
-
         unsubscribeGroup.current =
-          firestore.collection("Groups").doc(authUser.selectedGroup).onSnapshot( groupData => {
-            setCurrentGroup(groupData.data())    
-          }, function(error) {
+          firestore.collection("Groups").doc(authUser.selectedGroup).onSnapshot( data => {
+            setCurrentGroup(data.data()) 
+            console.log('Updated currentGroup state from new snapshot')           
+          }, (error) => {
             console.log(error)
-          });
-
-        reroute.current('MainAppView')
-      } else if (!authUser.selectedGroup) {        
-        reroute.current('GroupSelect');
-        
+          });   
+        console.log('New group listener started, groupId: ' + authUser.selectedGroup)  
+        setView('MainAppView')   
+      } else {
+        setCurrentGroup(null) 
+        setView('GroupSelect')
       }
       setPendingGroup(false); 
     }
 
     return () => {
+      console.log('Returned Grouplistener useEffect, unsubscribing')
       unsubscribeGroup.current && unsubscribeGroup.current();
       unsubscribeGroup.current = null;      
     };   
-
   }, [authUser]);
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
 
   if(pendingGroup){
     return (

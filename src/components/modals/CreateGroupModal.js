@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { auth, firestore, timestamp } from "../../config/Firebase.js";
-// import * as firebase from 'firebase/app'
 
 export const CreateGroupModal = (props) => {  
   const [error, setError] = useState('');  
@@ -9,7 +8,8 @@ export const CreateGroupModal = (props) => {
   const formHandler = (e) => {
     e.preventDefault();
     const form = document.querySelector('#modal-form');
-    const groupname = form['groupname'].value;    
+    const groupname = form['groupname'].value;       
+    let createdGroupId = null;
 
     firestore.collection("Groups").add({
       groupMembers: {
@@ -23,8 +23,21 @@ export const CreateGroupModal = (props) => {
       createDate: timestamp.fromDate(new Date()).toDate(),
       lastActivity: timestamp.fromDate(new Date()).toDate()
     }).then ( returned => {
+      createdGroupId = returned.im.path.segments[1];
+      firestore.collection("GroupsByUser").doc(auth.currentUser.uid).set({
+        groups: {
+          [createdGroupId]: {
+            groupId: createdGroupId,
+            name: groupname,
+            creator: auth.currentUser.displayName,
+            createDate: timestamp.fromDate(new Date()).toDate(),
+            lastActivity: timestamp.fromDate(new Date()).toDate()
+          }
+        }        
+      }, {merge: true})   
+    }).then ( () => {
       firestore.collection("Users").doc(auth.currentUser.uid).update({
-        selectedGroup: returned.im.path.segments[1]
+        selectedGroup: createdGroupId
       })      
     }).then (
       () => setModal(false)

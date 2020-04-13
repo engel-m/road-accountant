@@ -17,7 +17,7 @@ export const CreateAccount = () => {
     auth.createUserWithEmailAndPassword(email, password).then(returned => {
       if(returned.user && returned.additionalUserInfo.isNewUser === true){
         firestore.collection("Users").doc(returned.user.uid).set({ 
-          displayName: nickname, email, selectedGroup: null
+          displayName: nickname, uid: returned.user.uid, email, selectedGroup: null
         })      
         returned.user.updateProfile({
           displayName: nickname

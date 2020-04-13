@@ -20,19 +20,18 @@ export const AuthProvider = ({ children }) => {
       } else if (user) { 
         unsubscribeUser.current = 
           firestore.collection("Users").doc(user.uid).onSnapshot( userData => {
-            setAuthUser(userData.data())
-            setAuthUser(prevState => ({
-                  ...prevState,    
-                  uid: user.uid       
-            }))
+            setAuthUser(userData.data()) 
+            console.log('Updated user data from new snapshot')              
           }, function(error) {
             console.log(error)
-          });                   
+          });  
+        console.log('Listening to user data')                 
         setPendingAuth(false)      
       } 
     });
     
     return () => {
+      console.log('Returned Auth Listener useEffect, unsubscribing')
       unsubscribeUser.current && unsubscribeUser.current();
       unsubscribeUser.current = null; 
     };

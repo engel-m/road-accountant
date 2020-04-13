@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { firestore } from '../../config/Firebase';
+import { firestore, fieldValue } from '../../config/Firebase';
 import { AuthContext } from '../../context/AuthContext';
 import { GlobalContext } from '../../context/GlobalState';
 import { LoadingScreen } from "./LoadingScreen.js";
@@ -15,38 +15,42 @@ export const GroupSelect = () => {
     if (e !== '') {
       e.preventDefault();
     }
-    authUser.selectedGroup ? authUser.selectedGroup !== id ? 
+    if (authUser.selectedGroup !== id) { 
       firestore.collection('Users').doc(authUser.uid).update({
         selectedGroup: id
       }).catch( (error) => {
         console.log(error);
       })       
-      : setView('MainAppView')
-    : setView('MainAppView')   
+    } 
+    setView('MainAppView') 
   };
 
   const deleteGroup = (id, e = '') => {
     (e !== '') && e.preventDefault();
+    if (id === authUser.selectedGroup) {
+      firestore.collection('Users').doc(authUser.uid).update({ selectedGroup: null }).catch( (error) => { console.log(error) })
+    }      
     firestore.collection('Groups').doc(id).delete().then( () => {
-      getGroups(authUser);
-    }).then( () => {
-      if (id === authUser.selectedGroup) {
-        firestore.collection('Users').doc(authUser.uid).update({ selectedGroup: null })
-      }    
+      firestore.collection("GroupsByUser").doc(authUser.uid).set({ 
+        groups: {
+          [id]: fieldValue.delete()
+        }
+      }, { merge: true });
+      setGroupArray( groupArray.filter( group => group.groupId !== id) )
     }).catch( (error) => {
-      console.log(error);
-    })     
+      console.log(error)
+    });     
   };
 
   const getGroups = (authUser) => {
     if (authUser) {
-      setLoadingGroups(true);
-      firestore.collection("Groups").where("groupMembers." + authUser.uid + ".role", ">", "''").get().then( docs => {
-        let returned = [];
-        docs.forEach(function(doc) {
-          let data = doc.data();
-          returned.push({ ...data, groupId: doc.id});
-        });   
+      let returned = []
+      firestore.collection("GroupsByUser").doc(authUser.uid).get().then( doc => {
+        let groups = doc.data().groups;
+        Object.keys(groups).map( (groupdata, id) => {
+          returned.push(groups[groupdata])
+        });
+        console.log(returned)
         returned.length >= 1 ? setGroupArray(returned) : setGroupArray(null);
         setLoadingGroups(false);
       }).catch( (error) => {
@@ -57,7 +61,6 @@ export const GroupSelect = () => {
 
   useEffect(() => {
     authUser && getGroups(authUser);
-    console.log('Effect fired')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -80,7 +83,7 @@ export const GroupSelect = () => {
     {/* Group Cards */}
     { groupArray && groupArray.map( (group, index) => (
           <GroupCard key={group.groupId} selectGroup={selectGroup} deleteGroup={deleteGroup}
-            groupId={group.groupId} userId={authUser.uid} name={group.name} groupMembers={group.groupMembers} />
+            group={group} userId={authUser.uid}/>
         ))}
     </div>   
     </>
