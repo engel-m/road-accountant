@@ -48,7 +48,7 @@ export const GroupSelect = () => {
       firestore.collection("GroupsByUser").doc(authUser.uid).get().then( doc => {
         let groups = doc.data().groups;
         Object.keys(groups).map( (groupdata, id) => {
-          returned.push(groups[groupdata])
+          return returned.push(groups[groupdata])
         });
         console.log(returned)
         returned.length >= 1 ? setGroupArray(returned) : setGroupArray(null);

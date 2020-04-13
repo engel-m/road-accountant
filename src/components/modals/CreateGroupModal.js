@@ -30,6 +30,7 @@ export const CreateGroupModal = (props) => {
             groupId: createdGroupId,
             name: groupname,
             creator: auth.currentUser.displayName,
+            creatorId: auth.currentUser.uid,
             createDate: timestamp.fromDate(new Date()).toDate(),
             lastActivity: timestamp.fromDate(new Date()).toDate()
           }
