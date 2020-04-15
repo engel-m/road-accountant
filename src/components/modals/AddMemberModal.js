@@ -50,14 +50,13 @@ export const AddMemberModal = (props) => {
         if (result.empty) {
           setError('No user found with email ' + email)
         } else {
-          result.forEach( (doc) => {
+          result.forEach( (doc) => {                        
             notifDocId = doc.id;
             invitedName = doc.data().displayName;
-            let exists = (currentGroup.groupMembers[notifDocId].email === email) ? true : false;
-
+            let exists = (typeof currentGroup.groupMembers[notifDocId] !== 'undefined') ? true : false;
             if (exists) {
               throw new Error('User is already in group!');
-            }     
+            }                
             !exists && firestore.collection("Groups").doc(currentGroup.groupId).set({
               groupMembers: {
                 [notifDocId]: {
@@ -70,21 +69,25 @@ export const AddMemberModal = (props) => {
               firestore.collection("Notifications").doc(notifDocId).set({
                 invites: {
                   [currentGroup.groupId]: {
+                    groupName: currentGroup.name,
                     creatorName: currentGroup.creator.name,
                     creatorMail: currentGroup.creator.email,
+                    creatorId: currentGroup.creator.id,
                     createDate: currentGroup.createDate,
                     groupId: currentGroup.groupId,
                     inviteDate: timestamp.fromDate(new Date()).toDate()
                   }
                 },
               }, {merge: true})).then (
-                (error !== '') && setModal(false)
+                (error === '') && setModal(false)
               ).catch( (error) => {
+                console.log(error)
                 setError(error.message)
               }); 
           });          
         }
       }).catch( (error) => {
+        console.log(error)
         setError(error.message)
       });     
     }

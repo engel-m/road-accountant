@@ -22,7 +22,7 @@ export const Navtop = () => {
               src="img/road-icon.svg" alt="Road Accountant Logo"/>
             <span onClick={authUser ? (e) => {setView('MainAppView', e)} : (e) => {setView('Landing', e)}} className="text-2xl font-extrabold text-purple-900 mt-2 hover:text-blue-700 font-black cursor-pointer">
               Road Accountant</span> 
-            <span className="cursor-default ml-12 text-sm font-extrabold text-green-700 mt-2 hover:text-green-600 font-black cursor-pointer">
+            <span className="hidden md:inline-block ml-12 text-sm font-extrabold text-green-700 mt-2 hover:text-green-600 font-black cursor-pointer">
              {authUser ? 'Logged in as ' + authUser.email : ""}</span> 
           </div>
           <div className="block lg:hidden" onClick={ (e) => {
@@ -40,13 +40,15 @@ export const Navtop = () => {
           </div>
           <div id="main-nav" className={"w-full text-right flex-grow lg:flex items-center lg:w-auto mt-4 md:mt-2 " + (burgerMenuOn ? "" : "hidden") + " "}>
             <div className="text-xl lg:text-base lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
+              {authUser && <span className="md:hidden block ml-12 text-sm font-extrabold text-green-700 mt-2 hover:text-green-600 font-black cursor-pointer">
+                Logged in as {authUser.email}</span>}
               {authUser && <NotificationsLink />} 
               {authUser && <NavLink linkText={'+ CREATE GROUP'} linkType={'Modal'} linkTo={'CreateGroupModal'} />}
               {authUser && <NavLink linkText={'>MY GROUPS'} linkType={'View'} 
               linkTo={ (currentView === 'GroupSelect' && authUser.selectedGroup) ? 'MainAppView' : 'GroupSelect'}/>}
               {!authUser && <NavLink linkText={'CREATE ACCOUNT'} linkType={'View'} linkTo={'CreateAccount'} />}
-              <LoginLogoutButton />                  
-              <NavLink linkText={'ABOUT'} linkType={'View'} linkTo={'About'} />
+              <LoginLogoutButton />            
+              {/* <NavLink linkText={'ABOUT'} linkType={'View'} linkTo={'About'} /> */}
             </div>
           </div>
         </nav>

@@ -21,7 +21,8 @@ export const CreateGroupModal = (props) => {
       },
       creator: {
         name: auth.currentUser.displayName,
-        email: auth.currentUser.email
+        email: auth.currentUser.email,
+        id: auth.currentUser.uid
       },
       name: groupname,
       createDate: timestamp.fromDate(new Date()).toDate(),
