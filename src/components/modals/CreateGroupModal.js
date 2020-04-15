@@ -19,6 +19,10 @@ export const CreateGroupModal = (props) => {
           role: 'creator'
         }
       },
+      creator: {
+        name: auth.currentUser.displayName,
+        email: auth.currentUser.email
+      },
       name: groupname,
       createDate: timestamp.fromDate(new Date()).toDate(),
       lastActivity: timestamp.fromDate(new Date()).toDate()
@@ -31,6 +35,7 @@ export const CreateGroupModal = (props) => {
             name: groupname,
             creator: auth.currentUser.displayName,
             creatorId: auth.currentUser.uid,
+            creatorMail: auth.currentUser.email,
             createDate: timestamp.fromDate(new Date()).toDate(),
             lastActivity: timestamp.fromDate(new Date()).toDate()
           }

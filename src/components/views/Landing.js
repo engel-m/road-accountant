@@ -82,7 +82,7 @@ export const LandingPage = () => {
                       placeholder="Password"
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         id="customCheckLogin"
@@ -92,7 +92,7 @@ export const LandingPage = () => {
                         Remember me
                       </span>
                     </label>
-                  </div>
+                  </div> */}
 
                   {error !== '' && <div className="bg-red-100 p-3 border-red-600 border rounded"><p className="text-red-600 text-center">
                     {error}</p></div>}     
@@ -110,7 +110,7 @@ export const LandingPage = () => {
 
             <div className="flex flex-wrap text-xl mt-6">
               <div className="w-1/2">
-                <span className="text-gray-600 font-bold italic cursor-pointer">
+                <span onClick={(e) => setView('ForgotPassword', e)} className="text-gray-600 font-bold italic cursor-pointer">
                   <small>Forgot password?</small>
                 </span>
               </div>

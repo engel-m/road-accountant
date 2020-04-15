@@ -47,9 +47,10 @@ export const GroupListenerProvider = ({ children }) => {
       unsubscribeGroup.current && unsubscribeGroup.current();
       unsubscribeGroup.current = null;      
     };   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser]);
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      
 
   if(pendingGroup){
     return (

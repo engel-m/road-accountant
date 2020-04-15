@@ -21,8 +21,7 @@ export const CreateAccount = () => {
         })      
         returned.user.updateProfile({
           displayName: nickname
-        })    
-        .then( firestore.collection('Notifications').doc(returned.user.uid).set({ email, displayName: nickname })
+        }).then( firestore.collection('Notifications').doc(returned.user.uid).set({ email, displayName: nickname, invites: null }, {merge: true})
         ).catch(error => {
           setError(error.message)
         })   
@@ -44,7 +43,7 @@ export const CreateAccount = () => {
               <small>Create an account</small>
             </div>
             <form id="create-account-form" onSubmit={(e) => formHandler(e)}>
-            <div className="relative w-full mb-3">
+              <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-password">

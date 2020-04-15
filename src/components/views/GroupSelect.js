@@ -44,13 +44,14 @@ export const GroupSelect = () => {
 
   const getGroups = (authUser) => {
     if (authUser) {
-      let returned = []
+      let returned = [];
       firestore.collection("GroupsByUser").doc(authUser.uid).get().then( doc => {
-        let groups = doc.data().groups;
-        Object.keys(groups).map( (groupdata, id) => {
-          return returned.push(groups[groupdata])
-        });
-        console.log(returned)
+        let groups = doc.data() ? doc.data().groups : null;
+        if (groups) {
+          Object.keys(groups).map( (groupdata, id) => {
+            return returned.push(groups[groupdata])
+          });  
+        }      
         returned.length >= 1 ? setGroupArray(returned) : setGroupArray(null);
         setLoadingGroups(false);
       }).catch( (error) => {

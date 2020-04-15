@@ -3,6 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { AuthContext } from '../context/AuthContext';
 import { NavLink } from './NavLink';
 import { LoginLogoutButton } from './LoginLogoutButton';
+import { NotificationsLink } from './NotificationsLink';
 
   
 export const Navtop = () => {   
@@ -10,25 +11,6 @@ export const Navtop = () => {
   const { authUser } = useContext(AuthContext);
   const currentView = renderStatus.currentView; 
   const [burgerMenuOn, setBurgerMenuOn] = useState(false);
-
-
-
-
-  // // Navbar Toggle
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   // Get all "navbar-burger" elements
-  //   var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-  //   // Add a click event on each navbar burger
-  //   if ($navbarBurgers.length > 0) {
-  //     $navbarBurgers.forEach(function ($el) {
-  //       $el.addEventListener('click', function () {
-  //           // Hide the main-nav
-  //           console.log('clicked')
-  //       document.getElementById('main-nav').classList.toggle('hidden');
-  //       });
-  //     });
-  //   }
-  // });
 
   return (
   <header>
@@ -38,8 +20,10 @@ export const Navtop = () => {
           <div className="flex items-center flex-no-shrink text-white mr-6 ">
             <img onClick={authUser ? (e) => {setView('MainAppView', e)} : (e) => {setView('Landing', e)}} className="h-12 w-12 ml-2 mr-2 cursor-pointer" width="64" height="64" viewBox="0 0 64 64" 
               src="img/road-icon.svg" alt="Road Accountant Logo"/>
-            <span onClick={authUser ? (e) => {setView('MainAppView', e)} : (e) => {setView('Landing', e)}} className="cursor-default text-2xl font-extrabold text-purple-900 mt-2 hover:text-blue-700 font-black cursor-pointer">
+            <span onClick={authUser ? (e) => {setView('MainAppView', e)} : (e) => {setView('Landing', e)}} className="text-2xl font-extrabold text-purple-900 mt-2 hover:text-blue-700 font-black cursor-pointer">
               Road Accountant</span> 
+            <span className="cursor-default ml-12 text-sm font-extrabold text-green-700 mt-2 hover:text-green-600 font-black cursor-pointer">
+             {authUser ? 'Logged in as ' + authUser.email : ""}</span> 
           </div>
           <div className="block lg:hidden" onClick={ (e) => {
                 e.preventDefault() 
@@ -56,6 +40,7 @@ export const Navtop = () => {
           </div>
           <div id="main-nav" className={"w-full text-right flex-grow lg:flex items-center lg:w-auto mt-4 md:mt-2 " + (burgerMenuOn ? "" : "hidden") + " "}>
             <div className="text-xl lg:text-base lg:flex-grow mt-2 animated jackinthebox xl:mx-8">
+              {authUser && <NotificationsLink />} 
               {authUser && <NavLink linkText={'+ CREATE GROUP'} linkType={'Modal'} linkTo={'CreateGroupModal'} />}
               {authUser && <NavLink linkText={'>MY GROUPS'} linkType={'View'} 
               linkTo={ (currentView === 'GroupSelect' && authUser.selectedGroup) ? 'MainAppView' : 'GroupSelect'}/>}
