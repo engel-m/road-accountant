@@ -1,18 +1,16 @@
 import React, {useState, useContext } from 'react'
-import { GlobalContext } from '../context/GlobalState';
 import { AuthContext } from '../context/AuthContext';
 import { GroupListener } from '../context/GroupListener';
 import { firestore, timestamp } from '../config/Firebase';
 import { generatePushID } from "../helpers/pushIdGenerator.js";
 
 export const AddTransaction = () => {
-  const { addTransaction } = useContext(GlobalContext);
   const { authUser } = useContext(AuthContext);
   const { currentGroup } = useContext(GroupListener);
   const [text, setText] = useState('');
   const [amount, setAmount] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [windowOpen, setWindowOpen] = useState(true);
+  const [windowOpen, setWindowOpen] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -92,16 +90,7 @@ export const AddTransaction = () => {
         setError(error.message)
         setSubmitting(false);
       });    
-    } 
-
-    // old code
-    // const newTransaction = {
-    //   id: Math.floor(Math.random() * 100000000),
-    //   text,
-    //   amount: dividedAmount
-    // }    
-
-    // addTransaction(newTransaction);
+    }     
   }
 
   return (
@@ -125,11 +114,11 @@ export const AddTransaction = () => {
       <form onSubmit={!submitting ? onAdd : () => {}} id="add-form" className="font-fira">
         <div className="form-control">
           <label htmlFor="amount">Amount</label>
-          <input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Number amount..." />
+          <input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Number amount..." max="999999" />
         </div>
         <div className="form-control">
           <label htmlFor="text">Description of expense</label>
-          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Text description here..." />
+          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Text description here..." max="40" />
         </div>
         <h1 className="mt-6 italic">Who participated in this expense? Check name(s), expense will be split among those</h1>
         <div className="flex items-center content-center flex-wrap mb-4">
@@ -155,7 +144,7 @@ export const AddTransaction = () => {
         className="block mx-auto mt-8 mb-3 w-1/2 px-4 bg-indigo-700 p-3 rounded-lg text-white hover:bg-indigo-600 focus:outline-none
         shadow border border-gray-200">Add Expense</button>}
       <button className="block mx-auto mt-3 mb-6 w-1/2 px-4 bg-orange-500 p-3 rounded-lg text-white hover:bg-orange-400 focus:outline-none
-        shadow border border-gray-200">&#9981;  Fuel Cost Tool</button>
+        shadow border border-gray-200"><span role="img" aria-label="fuel-icon">&#9981;</span>  Fuel Cost Tool</button>
     </div>
     </>
   )

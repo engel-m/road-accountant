@@ -4,12 +4,8 @@ export const GroupCard = React.memo(props => {
   const [confirmAlert, setConfirmAlert] = useState(false);
   const group = props.group;
   const userId = props.userId || null; 
-  let isCreator = false;
-
-  if (userId) {
-    isCreator = (group.creatorId === userId) && true;
-  }
-
+  let isCreator = userId ? (group.creatorId === userId) ? true : false : false;
+ 
   return (   
     <>   
     <div className="relative flex w-full pt-4 pb-5 md:pb-1 my-2 justify-between bg-white shadow-md rounded flex-shrink mx-1
