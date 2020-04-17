@@ -15,7 +15,7 @@ export const ModalTemplate = () => {
       {/* Set varying modal size for different modals */}
       <div className={ renderStatus.modalView === 'NotificationsModal' ? 
         "modal-container bg-gray-100 w-9/12 md:w-8/12 mx-auto md:mb-32 rounded-md shadow-lg z-50 overflow-y-auto"
-        : "modal-container bg-gray-100 w-9/12 md:w-8/12 lg:max-w-lg xl:max-w-xl xl:mb-32 mx-auto rounded-md shadow-lg z-50 overflow-y-auto" }>
+        : "modal-container bg-gray-100 w-9/12 md:w-8/12 lg:max-w-lg xl:max-w-xl xl:mb-32 mx-auto rounded-md shadow-lg z-50 overflow-y-auto"}>
                  
         {/* Close Button in upper right corner of screen */}
         <div onClick={(e) => setModal(false, e)} className="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
@@ -28,7 +28,7 @@ export const ModalTemplate = () => {
         {renderStatus.modalView === 'AddMemberModal' && <AddMemberModal setModal={setModal} />}
         {renderStatus.modalView === 'CreateGroupModal' && <CreateGroupModal setModal={setModal} />}
         {renderStatus.modalView === 'NotificationsModal' && <NotificationsModal setModal={setModal} setView={setView} />}
-
+        
       </div>
     </div>
     </>

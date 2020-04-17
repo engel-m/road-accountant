@@ -14,6 +14,7 @@ function App() {
     <>
     <AuthProvider>
       <GroupListenerProvider>
+        <img src="./img/car-driving.png" alt="car-driving" className="w-1/6 hidden md:block absolute left-0 bottom-0 ml-8 mb-12 -z-10 "/>
         <Navtop /> 
         <View />      
         {renderStatus.modalView !== false && <ModalTemplate />} 

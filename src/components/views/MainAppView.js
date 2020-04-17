@@ -11,7 +11,7 @@ export const MainAppView = () => {
   return (
     <>
     {currentGroup && <MemberDisplay />}      
-    <div className="animated fadeIn w-11/12 md:w-8/12 lg:w-4/12 mx-auto mt-8 flex flex-wrap flex-column content-center justify-center">
+    <div className="animated fadeIn w-11/12 md:w-9/12 lg:w-6/12 mx-auto mt-8 flex flex-wrap flex-column content-center justify-center">
       {currentGroup && <IncomeExpenses />} 
       {currentGroup && <AddTransaction />} 
       {currentGroup && <TransactionList />}       

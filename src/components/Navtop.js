@@ -14,7 +14,7 @@ export const Navtop = () => {
 
   return (
   <header>
-  <div className="py-3 px-2 lg:mx-4 xl:mx-12 ">
+  <div className="py-3 px-2 lg:mx-4 xl:mx-12">
     <div className="">
         <nav className="border-b flex items-center justify-between flex-wrap pb-4">
           <div className="flex items-center flex-no-shrink text-white mr-6 ">

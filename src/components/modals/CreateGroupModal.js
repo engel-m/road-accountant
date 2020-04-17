@@ -14,6 +14,7 @@ export const CreateGroupModal = (props) => {
     firestore.collection("Groups").add({
       groupMembers: {
         [auth.currentUser.uid]: {
+          color: 'green-500',
           displayName: auth.currentUser.displayName,
           email: auth.currentUser.email,
           role: 'creator'
@@ -25,6 +26,7 @@ export const CreateGroupModal = (props) => {
         id: auth.currentUser.uid
       },
       name: groupname,
+      transactions: null,
       createDate: timestamp.fromDate(new Date()).toDate(),
       lastActivity: timestamp.fromDate(new Date()).toDate()
     }).then ( returned => {

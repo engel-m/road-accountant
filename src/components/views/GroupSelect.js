@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { GlobalContext } from '../../context/GlobalState';
 import { LoadingScreen } from "./LoadingScreen.js";
 import { GroupCard } from "../GroupCard.js";
+import { sortByNested } from "../../helpers/sortByNestedValue.js";
 
 export const GroupSelect = () => {
   const { authUser } = useContext(AuthContext);
@@ -45,12 +46,17 @@ export const GroupSelect = () => {
   const getGroups = (authUser) => {
     if (authUser) {
       let returned = [];
+      let groupIds = [];
       firestore.collection("GroupsByUser").doc(authUser.uid).get().then( doc => {
         let groups = doc.data() ? doc.data().groups : null;
         if (groups) {
-          Object.keys(groups).map( (groupdata, id) => {
-            return returned.push(groups[groupdata])
+          Object.keys(groups).map( (groupId, key) => {
+            returned.push(groups[groupId])
+            groupIds.push([groupId])
           });  
+          returned.sort((a, b) => {
+            return b.createDate - a.createDate;
+          });
         }      
         returned.length >= 1 ? setGroupArray(returned) : setGroupArray(null);
         setLoadingGroups(false);

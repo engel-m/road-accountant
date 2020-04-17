@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { GroupListener } from '../../context/GroupListener';
 import { firestore, timestamp } from "../../config/Firebase.js";
+import { generatePushID } from "../../helpers/pushIdGenerator.js";
+import { tailwindColors } from '../../styles/tailwindColors';
 
 export const AddMemberModal = (props) => {   
   const setModal = props.setModal;    
@@ -11,19 +13,13 @@ export const AddMemberModal = (props) => {
     e.preventDefault();
     const form = document.querySelector('#name-form');
     const nickname = form['nickname'].value;    
-    
-    if (currentGroup) {
-      // Generate ID for dummy user
-      const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-      let generatedId = ''    
-      for (let i = 0; i < 20; i++) {
-        generatedId += CHARS.charAt(
-          Math.floor(Math.random() * CHARS.length)
-        )
-      }
+    const generatedId = generatePushID();
+    const color = tailwindColors[Math.floor(Math.random() * tailwindColors.length)];
+    if (currentGroup) {      
       firestore.collection("Groups").doc(currentGroup.groupId).set({
         groupMembers: {
           [generatedId]: {
+            color: color,
             displayName: nickname,
             email: 'User not registered',
             role: 'npc'
@@ -41,6 +37,7 @@ export const AddMemberModal = (props) => {
     e.preventDefault();
     const form = document.querySelector('#email-form');
     const email = form['email'].value; 
+    const color = tailwindColors[Math.floor(Math.random() * tailwindColors.length)];
     let notifDocId = null;
     let invitedName = null;   
     
@@ -60,6 +57,7 @@ export const AddMemberModal = (props) => {
             !exists && firestore.collection("Groups").doc(currentGroup.groupId).set({
               groupMembers: {
                 [notifDocId]: {
+                  color: color,
                   displayName: invitedName,
                   email: email,
                   role: 'member'

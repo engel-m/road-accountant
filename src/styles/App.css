@@ -1042,6 +1042,10 @@ video {
   background-color: #702459;
 }
 
+.bg-paper2 {
+  background-color: #f5f0e6;
+}
+
 .hover\:bg-transparent:hover {
   background-color: transparent;
 }
@@ -1414,6 +1418,10 @@ video {
   background-color: #702459;
 }
 
+.hover\:bg-paper2:hover {
+  background-color: #f5f0e6;
+}
+
 .focus\:bg-transparent:focus {
   background-color: transparent;
 }
@@ -1784,6 +1792,10 @@ video {
 
 .focus\:bg-pink-900:focus {
   background-color: #702459;
+}
+
+.focus\:bg-paper2:focus {
+  background-color: #f5f0e6;
 }
 
 .bg-bottom {
@@ -3686,6 +3698,10 @@ video {
 
 .font-mono {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.font-fira {
+  font-family: Fira Sans;
 }
 
 .font-hairline {
@@ -8522,6 +8538,10 @@ video {
   z-index: auto;
 }
 
+.-z-10 {
+  z-index: -10;
+}
+
 .gap-0 {
   grid-gap: 0;
   gap: 0;
@@ -11349,6 +11369,10 @@ video {
     background-color: #702459;
   }
 
+  .sm\:bg-paper2 {
+    background-color: #f5f0e6;
+  }
+
   .sm\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -11721,6 +11745,10 @@ video {
     background-color: #702459;
   }
 
+  .sm\:hover\:bg-paper2:hover {
+    background-color: #f5f0e6;
+  }
+
   .sm\:focus\:bg-transparent:focus {
     background-color: transparent;
   }
@@ -12091,6 +12119,10 @@ video {
 
   .sm\:focus\:bg-pink-900:focus {
     background-color: #702459;
+  }
+
+  .sm\:focus\:bg-paper2:focus {
+    background-color: #f5f0e6;
   }
 
   .sm\:bg-bottom {
@@ -13993,6 +14025,10 @@ video {
 
   .sm\:font-mono {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .sm\:font-fira {
+    font-family: Fira Sans;
   }
 
   .sm\:font-hairline {
@@ -18829,6 +18865,10 @@ video {
     z-index: auto;
   }
 
+  .sm\:-z-10 {
+    z-index: -10;
+  }
+
   .sm\:gap-0 {
     grid-gap: 0;
     gap: 0;
@@ -21657,6 +21697,10 @@ video {
     background-color: #702459;
   }
 
+  .md\:bg-paper2 {
+    background-color: #f5f0e6;
+  }
+
   .md\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -22029,6 +22073,10 @@ video {
     background-color: #702459;
   }
 
+  .md\:hover\:bg-paper2:hover {
+    background-color: #f5f0e6;
+  }
+
   .md\:focus\:bg-transparent:focus {
     background-color: transparent;
   }
@@ -22399,6 +22447,10 @@ video {
 
   .md\:focus\:bg-pink-900:focus {
     background-color: #702459;
+  }
+
+  .md\:focus\:bg-paper2:focus {
+    background-color: #f5f0e6;
   }
 
   .md\:bg-bottom {
@@ -24301,6 +24353,10 @@ video {
 
   .md\:font-mono {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .md\:font-fira {
+    font-family: Fira Sans;
   }
 
   .md\:font-hairline {
@@ -29137,6 +29193,10 @@ video {
     z-index: auto;
   }
 
+  .md\:-z-10 {
+    z-index: -10;
+  }
+
   .md\:gap-0 {
     grid-gap: 0;
     gap: 0;
@@ -31965,6 +32025,10 @@ video {
     background-color: #702459;
   }
 
+  .lg\:bg-paper2 {
+    background-color: #f5f0e6;
+  }
+
   .lg\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -32337,6 +32401,10 @@ video {
     background-color: #702459;
   }
 
+  .lg\:hover\:bg-paper2:hover {
+    background-color: #f5f0e6;
+  }
+
   .lg\:focus\:bg-transparent:focus {
     background-color: transparent;
   }
@@ -32707,6 +32775,10 @@ video {
 
   .lg\:focus\:bg-pink-900:focus {
     background-color: #702459;
+  }
+
+  .lg\:focus\:bg-paper2:focus {
+    background-color: #f5f0e6;
   }
 
   .lg\:bg-bottom {
@@ -34609,6 +34681,10 @@ video {
 
   .lg\:font-mono {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .lg\:font-fira {
+    font-family: Fira Sans;
   }
 
   .lg\:font-hairline {
@@ -39445,6 +39521,10 @@ video {
     z-index: auto;
   }
 
+  .lg\:-z-10 {
+    z-index: -10;
+  }
+
   .lg\:gap-0 {
     grid-gap: 0;
     gap: 0;
@@ -42273,6 +42353,10 @@ video {
     background-color: #702459;
   }
 
+  .xl\:bg-paper2 {
+    background-color: #f5f0e6;
+  }
+
   .xl\:hover\:bg-transparent:hover {
     background-color: transparent;
   }
@@ -42645,6 +42729,10 @@ video {
     background-color: #702459;
   }
 
+  .xl\:hover\:bg-paper2:hover {
+    background-color: #f5f0e6;
+  }
+
   .xl\:focus\:bg-transparent:focus {
     background-color: transparent;
   }
@@ -43015,6 +43103,10 @@ video {
 
   .xl\:focus\:bg-pink-900:focus {
     background-color: #702459;
+  }
+
+  .xl\:focus\:bg-paper2:focus {
+    background-color: #f5f0e6;
   }
 
   .xl\:bg-bottom {
@@ -44917,6 +45009,10 @@ video {
 
   .xl\:font-mono {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .xl\:font-fira {
+    font-family: Fira Sans;
   }
 
   .xl\:font-hairline {
@@ -49753,6 +49849,10 @@ video {
     z-index: auto;
   }
 
+  .xl\:-z-10 {
+    z-index: -10;
+  }
+
   .xl\:gap-0 {
     grid-gap: 0;
     gap: 0;
@@ -52143,3 +52243,6 @@ video {
     transition-duration: 1000ms;
   }
 }
+
+
+

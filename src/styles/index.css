@@ -9,7 +9,39 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: 'Lato', sans-serif;
+  /* overflow-y: auto; */
+  /* font-family: 'Fira Sans', sans-serif; */
 }
+
+/* Scrollbar CSS */
+::-webkit-scrollbar {
+  display: none;
+  width: 10px;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: block;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(158, 120, 180, 0.8); 
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(158, 120, 180, 0.4); 
+}
+/* End of Scrollbar CSS */
 
 .tooltip-grey {
   --balloon-color: rgb(88, 88, 88);
@@ -121,6 +153,10 @@ input[type='number'] {
 
 .list li:hover .delete-btn {
   opacity: 1;
+}
+
+#transactionlist {
+  max-height: 2000px;
 }
 
 @media (max-width: 320px) {
