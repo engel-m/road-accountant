@@ -87,10 +87,10 @@ export const GroupSelect = () => {
     </div>
 
     {/* Group Cards */}
-    { groupArray && groupArray.map( (group, index) => (
-          <GroupCard key={group.groupId} selectGroup={selectGroup} deleteGroup={deleteGroup}
-            group={group} userId={authUser.uid}/>
-        ))}
+    { groupArray && groupArray.map( (group) => (
+        <GroupCard key={group.groupId} selectGroup={selectGroup} deleteGroup={deleteGroup}
+          group={group} userId={authUser.uid}/>
+    ))}
     </div>   
     </>
   )

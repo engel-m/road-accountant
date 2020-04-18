@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GroupListener } from '../../context/GroupListener';
 import { MemberDisplay } from '../MemberDisplay';
-import { IncomeExpenses } from '../IncomeExpenses';
+import { Settle } from '../Settle';
 import { AddTransaction } from '../transactions/AddTransaction';
 import { TransactionList } from '../transactions/TransactionList';
 
@@ -12,7 +12,10 @@ export const MainAppView = () => {
   const [balances, setBalances] = useState(null);
 
   const calcBalances = ( memberObject, transactionsObject ) => {
-    if (!memberObject || !transactionsObject) return
+    if (!memberObject || !transactionsObject) {
+      setBalances(null)
+      return
+    }          
     let initBalances = {};
     let transactionsByMember = {};
     // initialize balances obj: for each member Id zero balance
@@ -31,29 +34,28 @@ export const MainAppView = () => {
         transactionsByMember[payer].push(+transaction.amount);
       });
     });
-
     Object.keys(transactionsByMember).forEach( memberId => {
       let individualArr = transactionsByMember[memberId];
-      let total = individualArr.reduce( (acc, current) => acc + current );
+      let total = individualArr.reduce( (acc, current) => (acc += current), 0 );
       initBalances[memberId] = total;
-      return null;
     });
     setBalances(initBalances);
     return;
   };
 
   useEffect(() => {
-    if (transactions && groupMembers) {      
+    if (groupMembers) {      
       calcBalances(currentGroup.groupMembers, transactions);
+      console.log('Calced Balances');      
     };          
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactions, groupMembers]);
 
   return (
     <>
-    {currentGroup && <MemberDisplay balances={balances} />}      
-    <div className="animated fadeIn w-11/12 md:w-9/12 lg:w-6/12 mx-auto mt-8 flex flex-wrap flex-column content-center justify-center">
-      {currentGroup && <IncomeExpenses />} 
+    {currentGroup && <MemberDisplay balances={balances} groupTotal={400} />}      
+    <div className="animated fadeIn w-11/12 md:w-9/12 lg:w-6/12 mx-auto mt-4 flex flex-wrap flex-column content-center justify-center">
+      {currentGroup && <Settle balances={balances} groupMembers={groupMembers} />} 
       {currentGroup && <AddTransaction />} 
       {currentGroup && <TransactionList />}       
     </div>

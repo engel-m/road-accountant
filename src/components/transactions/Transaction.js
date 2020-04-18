@@ -8,29 +8,41 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
   const amount = Number.isInteger(floatAmount) ? parseInt(floatAmount) : floatAmount.toFixed(2);
   let isCreator = authId ? (creatorId === authId) ? true : false : false;
   let spenderArr = [];
+  let payerInfo = {};
 
   transaction.spenders.map( spender => { 
-    return spenderArr.push(members[spender].displayName || null) 
+    return spenderArr.push(members[spender].displayName || 'Unknown') 
   }); 
+  transaction.payers.forEach( payer => { 
+    payerInfo.displayName = members[payer].displayName || 'Unknown';
+    payerInfo.color = members[payer].color || 'gray-800';
+  });
   const spenderNames = spenderArr.join(', ');
+
+  console.log(payerInfo)
 
   return (
     <>
-    <li className={"relative flex w-full flex-wrap justify-between items-center p-2 my-2 bg-white shadow-lg text-gray-800 border-l-4 border-r-4 border-red-600"
+    <li className={"relative flex w-full flex-wrap justify-between items-center p-2 my-2 bg-white shadow-lg text-gray-800 border-l-4 border-r-4 border-red-300 "
         + (confirmAlert && " bg-red-100 shadow-inner ")}>
       {/* Amount & Desc */}
-      <div className="flex justify-left w-full md:w-8/12 items-center">
-        {transaction.type === 'expense' && <span className="text-red-600 w-1/4 md:w-2/12 p-2 bg-red-100 rounded-lg">{amount}</span>}
-        <span className="w-3/4 ml-3">{transaction.desc}</span>
+      <div className="flex justify-left w-full lg:w-2/4 items-center">
+        {transaction.type === 'expense' && <span className="text-red-600 w-3/12 lg:w-2/12 p-2 bg-red-100 rounded-lg">{amount}</span>}
+        <span className="w-10/12 ml-2">{transaction.desc}</span>
       </div>
       {/* Date & Spenders */}
-      <div className="flex justify-left my-3 md:my-0 md:justify-left w-full md:w-auto items-center">
-        <span className="ml-1 text-gray-600">{date} |</span>
-        <span className="ml-1 italic"> by: {spenderArr.length === groupMemberCount ? "Group" : spenderNames}</span>
-      </div>                 
-      {/* Delete button */}
-      {isCreator && <span onClick={() => setConfirmAlert(true)} 
-        className="max-w-2/12 cursor-pointer bg-red-500 text-white rounded p-2">Delete</span> }
+      <div className="flex flex-wrap justify-center my-3 lg:my-0 lg:justify-end text-center lg:text-right w-full lg:w-2/4 items-center">
+        <div className="w-full lg:w-11/12">
+          <span className="ml-1 italic">{spenderArr.length === groupMemberCount ? "Group" : spenderNames}</span>
+          <span className="ml-1 text-gray-600">| {date} |</span>
+          <span className={"text-" + payerInfo.color + " ml-1 text-center"}>{payerInfo.displayName}</span>
+          <img className="hidden lg:inline mr-1" width="32" height="32" src="img/wallet-icon.png" alt="Wallet Icon" />
+        </div>
+        {/* Delete button on large screens */}
+        {isCreator && <span onClick={() => setConfirmAlert(true)} 
+        className="w-1/3 md:w-1/5 lg:w-1/12 cursor-pointer bg-red-500 text-white text-center 
+          text-lg font-bold rounded p-2 mt-2 lg:mt-0 hover:bg-red-400">X</span> }     
+      </div>               
     </li>
 
     <div className={"flex flex-wrap w-full p-3 w-8/12 bg-red-200 text-bold justify-center items-center text-center rounded-lg text-xl " + ( confirmAlert ? "" : "hidden") + " "}>

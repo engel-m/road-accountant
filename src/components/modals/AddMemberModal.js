@@ -113,7 +113,7 @@ export const AddMemberModal = (props) => {
             Nickname <span className="text-gray-700 normal-case italic opacity-50"></span>
           </label>
           <input
-            type="nickname" id="nickname" required
+            type="nickname" id="nickname" maxLength="12" required
             className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
             placeholder="Nickname"/>
         </div>

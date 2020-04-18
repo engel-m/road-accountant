@@ -46,18 +46,18 @@ export const CreateAccount = () => {
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password">
-                  Nickname <span className="text-gray-700 normal-case italic opacity-50">(Required, max. 10 characters)</span>
+                  htmlFor="nickname">
+                  Nickname <span className="text-gray-700 normal-case italic opacity-50">(Required, max. 12 characters)</span>
                 </label>
                 <input
-                  type="nickname" id="nickname" maxLength="10" required
+                  type="text" id="nickname" maxLength="12" required
                   className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
                   placeholder="Nickname"/>
               </div>
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password">
+                  htmlFor="email">
                   Email <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
@@ -68,7 +68,7 @@ export const CreateAccount = () => {
               <div className="relative w-full mb-3">
                 <label
                   className="block uppercase text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="grid-password">
+                  htmlFor="password">
                   Password <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
                 </label>
                 <input
