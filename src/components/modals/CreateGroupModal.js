@@ -76,7 +76,7 @@ export const CreateGroupModal = (props) => {
             Group Name <span className="text-gray-700 normal-case italic opacity-50">(Required)</span>
           </label>
           <input
-            type="groupname" id="groupname" maxLength="30" required
+            type="text" id="groupname" minLength="3" maxLength="40" required
             className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
             placeholder="Group Name"/>
         </div>

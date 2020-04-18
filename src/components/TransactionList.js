@@ -11,7 +11,7 @@ export const TransactionList = () => {
   const creatorId = currentGroup.creator.id;
   const transactionsObj = currentGroup.transactions || null;
   let transactions = [];
-  Object.keys(transactionsObj).map( transaction => (
+  transactionsObj && Object.keys(transactionsObj).map( transaction => (
     transactions.push({
       ...transactionsObj[transaction], 
       id: transaction
@@ -31,9 +31,9 @@ export const TransactionList = () => {
   };
   
   return (
-    <div className="w-screen mb-12 px-10 font-fira overflow-x-hidden overflow-y-auto scrollable border-b border-gray-400" id="transactionlist">
-      <h3>History</h3>
-      <ul className="list-none">
+    <div className="w-screen mb-12 pb-4 px-1 font-fira overflow-x-hidden overflow-y-auto scrollable border-b border-gray-400" id="transactionlist">
+      <h3 className="border-b border-gray-400 mb-4">History</h3>
+      <ul className="list-none w-full">
         {sorted.length ? sorted.map((transaction) => (
           <Transaction key={transaction.id} id={transaction.id} transaction={transaction} 
             members={members} creatorId={creatorId} authId={authUser.uid} deleteTransaction={deleteTransaction}/> 

@@ -7,6 +7,25 @@ import { TransactionList } from '../TransactionList';
 
 export const MainAppView = () => {
   const { currentGroup } = useContext(GroupListener);
+  const members = currentGroup ? currentGroup.groupMembers : null;
+  const transactions = currentGroup ? currentGroup.transactions : null;
+
+  const getMemberIds = (members) => {
+    let arr = [];
+    if (members) {
+      members && Object.keys(members).map( (groupmember) => (
+        arr.push(groupmember)
+      ));      
+    }
+    return arr;
+  };
+
+  const calcBalances = () => {
+    console.log(getMemberIds(members))
+    console.log(transactions)
+  };
+
+  calcBalances();
 
   return (
     <>

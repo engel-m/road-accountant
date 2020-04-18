@@ -114,11 +114,13 @@ export const AddTransaction = () => {
       <form onSubmit={!submitting ? onAdd : () => {}} id="add-form" className="font-fira">
         <div className="form-control">
           <label htmlFor="amount">Amount</label>
-          <input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Number amount..." max="999999" />
+          <input type="number" min="0" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Number amount..." 
+            required max="999999" />
         </div>
         <div className="form-control">
           <label htmlFor="text">Description of expense</label>
-          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Text description here..." max="40" />
+          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Text description here..." 
+            required minLength="3" maxLength="150" />
         </div>
         <h1 className="mt-6 italic">Who participated in this expense? Check name(s), expense will be split among those</h1>
         <div className="flex items-center content-center flex-wrap mb-4">
