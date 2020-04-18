@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { GroupListener } from '../context/GroupListener';
 import { MemberCard } from './MemberCard';
 
-export const MemberDisplay = () => {
+export const MemberDisplay = ({ balances }) => {
   const { currentGroup } = useContext(GroupListener);
   const { setModal } = useContext(GlobalContext); 
   const members = currentGroup ? currentGroup.groupMembers : null;
@@ -14,8 +14,8 @@ export const MemberDisplay = () => {
     <h4 className="animated fadeIn italic font-bold text-gray-600 text-base text-center mt-4 font-fira">Members and their pay balance</h4>
     <div className="animated fadeIn w-full max-w-6xl mx-auto flex flex-wrap flex-column justify-center">      
         
-        { members && Object.keys(members).map( (groupmember, userId) => (
-          <MemberCard key={userId} id={userId} member={members[groupmember]} />
+        { members && Object.keys(members).map( (groupmember) => (
+          <MemberCard key={groupmember} id={groupmember} member={members[groupmember]} balance={balances ? balances[groupmember] : 0} />
         ))}
 
         {/* Add Button */}

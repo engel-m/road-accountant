@@ -4,6 +4,8 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
   const [confirmAlert, setConfirmAlert] = useState(false);
   const date = transaction.timestamp.toDate().toLocaleDateString();
   const groupMemberCount = Object.keys(members).length || 0;
+  const floatAmount = parseFloat(transaction.amount);
+  const amount = Number.isInteger(floatAmount) ? parseInt(floatAmount) : floatAmount.toFixed(2);
   let isCreator = authId ? (creatorId === authId) ? true : false : false;
   let spenderArr = [];
 
@@ -18,7 +20,7 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
         + (confirmAlert && " bg-red-100 shadow-inner ")}>
       {/* Amount & Desc */}
       <div className="flex justify-left w-full md:w-8/12 items-center">
-        {transaction.type === 'expense' && <span className="text-red-600 w-1/4 md:w-2/12 p-2 bg-red-100 rounded-lg">{transaction.amount}</span>}
+        {transaction.type === 'expense' && <span className="text-red-600 w-1/4 md:w-2/12 p-2 bg-red-100 rounded-lg">{amount}</span>}
         <span className="w-3/4 ml-3">{transaction.desc}</span>
       </div>
       {/* Date & Spenders */}

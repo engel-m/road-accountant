@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Transaction } from './Transaction';
-import { GroupListener } from '../context/GroupListener';
-import { AuthContext } from '../context/AuthContext';
-import { firestore, fieldValue } from '../config/Firebase';
+import { GroupListener } from '../../context/GroupListener';
+import { AuthContext } from '../../context/AuthContext';
+import { firestore, fieldValue } from '../../config/Firebase';
 
 export const TransactionList = () => {
   const { currentGroup } = useContext(GroupListener);

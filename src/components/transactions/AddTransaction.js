@@ -1,8 +1,10 @@
 import React, {useState, useContext } from 'react'
-import { AuthContext } from '../context/AuthContext';
-import { GroupListener } from '../context/GroupListener';
-import { firestore, timestamp } from '../config/Firebase';
-import { generatePushID } from "../helpers/pushIdGenerator.js";
+import { AuthContext } from '../../context/AuthContext';
+import { GroupListener } from '../../context/GroupListener';
+import { firestore, timestamp } from '../../config/Firebase';
+import { generatePushID } from "../../helpers/pushIdGenerator.js";
+import { SpenderCheckbox } from "./SpenderCheckbox.js";
+import { PayerCheckbox } from "./PayerCheckbox.js";
 
 export const AddTransaction = () => {
   const { authUser } = useContext(AuthContext);
@@ -15,29 +17,12 @@ export const AddTransaction = () => {
   const [success, setSuccess] = useState('');
 
   const members = currentGroup ? currentGroup.groupMembers : null;
-  const spenderBoxes = [];
-  const payerBoxes = [];  
   
-  members && Object.keys(members).forEach( (member) => {  
-    spenderBoxes.push(
-    <div key={member} className="mx-4 text-lg flex items-center content-center">
-      <label className="mr-2">{members[member].displayName}</label> 
-      <input type="checkbox" className="h-5 w-5 spend-checkbox" defaultChecked={true} 
-        value={member} name="spenders" id={"spender-" + member} />          
-    </div>)
-    payerBoxes.push(
-    <div key={member} className="mx-4 text-lg flex items-center content-center">
-      <label className="mr-2">{members[member].displayName}</label>
-      <input type="radio" value={member} name="payers" id={"payer-" + member} className="h-5 w-5 pay-checkbox"
-        defaultChecked={ (authUser.uid === member) ? true : false }/>     
-    </div>)
-  });
-
   const onAdd = e => {
     e.preventDefault();
     setSubmitting(true);    
     let spenders = [];
-    let payer = null;
+    let payers = [];
     let dividedAmount = null;
     let transactionId = generatePushID();
     let time = timestamp.fromDate(new Date()).toDate();
@@ -48,9 +33,7 @@ export const AddTransaction = () => {
       checkbox.checked && spenders.push(checkbox.value);
     });
     payCheckboxes.forEach( (checkbox) => {
-      if (checkbox.checked) {
-        payer = checkbox.value;
-      }
+      checkbox.checked && payers.push(checkbox.value);
     });
 
     // Check for incorrect inputs, otherwise move on to update Firestore DB
@@ -58,22 +41,22 @@ export const AddTransaction = () => {
       setError('Please fill in an amount and a description.')
       setSubmitting(false);
       return null;
-    } else if (!spenders.length || !payer) {
+    } else if (!spenders.length || !payers.length) {
       setError('Please fill in both who paid the expense and who participated.')
       setSubmitting(false);
       return null;
     } else {
-      dividedAmount = amount / spenders.length;
+      dividedAmount = Math.abs(amount / spenders.length).toFixed(2);
 
       // Execute firestore send of transaction
       firestore.collection("Groups").doc(currentGroup.groupId).set({
         lastActivity: time,
         transactions: {
           [transactionId]: {
-            amount: -amount,
+            amount: Math.abs(amount).toFixed(2),
             desc: text,
             dividedAmount: dividedAmount, 
-            payer: payer,
+            payers: payers,
             spenders: spenders,
             timestamp: time,
             type: 'expense'
@@ -122,13 +105,17 @@ export const AddTransaction = () => {
           <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Text description here..." 
             required minLength="3" maxLength="150" />
         </div>
-        <h1 className="mt-6 italic">Who participated in this expense? Check name(s), expense will be split among those</h1>
-        <div className="flex items-center content-center flex-wrap mb-4">
-          {spenderBoxes}
+        <h1 className="mt-6 italic text-center">Who participated in this expense? Check name(s), expense will be split among those</h1>
+        <div className="flex items-center content-center flex-wrap mb-4 justify-center">
+          {members && Object.keys(members).map( member => (  
+            <SpenderCheckbox key={member} memberId={member} displayName={members[member].displayName} />
+          ))}
         </div>        
-        <h1 className="mt-3 italic">Who paid for it this time?</h1>
-        <div className="flex items-center content-center flex-wrap mb-8">
-          {payerBoxes}
+        <h1 className="mt-3 italic text-center">Who paid for it this time?</h1>
+        <div className="flex items-center content-center flex-wrap mb-8 justify-center">
+          {members && Object.keys(members).map( member => (  
+            <PayerCheckbox key={member} memberId={member} displayName={members[member].displayName} authId={authUser.uid} />
+          ))}
         </div>   
         {error !== '' && <div className="flex w-full my-4 h-16 bg-red-100 p-3 border-red-600 border rounded mt-2  items-center justify-center">
           <p className="text-red-600">{error}</p></div>}   
@@ -139,9 +126,6 @@ export const AddTransaction = () => {
     </div>
 
     <div className="w-full">
-      {/* {windowOpen ? <button onClick={(e) => {e.preventDefault(); setWindowOpen(false)}} 
-        className="block mx-auto mt-5 mb-3 w-1/2 px-4 bg-red-600 p-3 rounded-lg text-white hover:bg-red-500 focus:outline-none
-        shadow border border-gray-200">Close</button> : null} */}
       {windowOpen ? null : <button onClick={(e) => {e.preventDefault(); setWindowOpen(true)}} 
         className="block mx-auto mt-8 mb-3 w-1/2 px-4 bg-indigo-700 p-3 rounded-lg text-white hover:bg-indigo-600 focus:outline-none
         shadow border border-gray-200">Add Expense</button>}

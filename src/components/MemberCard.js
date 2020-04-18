@@ -2,6 +2,7 @@ import React from 'react';
 import { MemberBalance } from './MemberBalance';
 
 export const MemberCard = React.memo(props => {
+
   return (    
     <>  
     <div className="relative flex w-5/12 md:w-1/5 flex-col py-1 md:py-4 md:pb-1 my-2 items-center bg-white shadow-lg rounded flex-shrink mx-1">
@@ -12,7 +13,7 @@ export const MemberCard = React.memo(props => {
       <h1 aria-label={props.member.email} data-balloon-pos="down" className={"tooltip-grey font-bold text-lg md:text-xl my-auto text-" + props.member.color + ""}>
         {props.member.displayName}</h1>
 
-        <MemberBalance balance={60} />
+        <MemberBalance balance={props.balance} />
     </div>      
     </>
   );
