@@ -52,7 +52,8 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
           border border-transparent hover:border-red-700">Cancel</div>
       <div onClick={() => deleteTransaction(id)}   
         className="block mx-2 w-2/12 bg-indigo-800 p-2 rounded-lg text-white focus:outline-none cursor-pointer shadow hover:shadow-inner 
-          border border-transparent hover:border-indigo-900">&#10003;</div>
+          border border-transparent hover:border-indigo-900">&#10003;
+      </div>
     </div>
     </>
   )

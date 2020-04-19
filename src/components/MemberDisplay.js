@@ -31,8 +31,8 @@ export const MemberDisplay = ({ balances, groupTotal }) => {
 
     </div>
 
-    <div className="flex w-full justify-center items-center mx-auto">
-      <span className="font-bold text-gray-700 text-lg">Group Total Spent: <span className="text-indigo-700">{groupTotal}</span></span>
+    <div className="flex w-1/3 justify-center items-center mx-auto my-2 pb-2 border-b">
+      <span className="font-bold text-gray-600 text-xl italic">Group Total Spent: <span className="text-indigo-700 not-italic">{groupTotal}</span></span>
     </div>
     </>
   )

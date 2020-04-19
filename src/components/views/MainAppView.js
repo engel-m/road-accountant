@@ -8,6 +8,7 @@ import { TransactionList } from '../transactions/TransactionList';
 export const MainAppView = () => {
   const { currentGroup } = useContext(GroupListener);
   const groupMembers = currentGroup ? currentGroup.groupMembers : null;
+  const creatorId =  currentGroup ? currentGroup.creator.id : null;
   const transactions = currentGroup ? currentGroup.transactions : null;
   const [balances, setBalances] = useState(null);
 
@@ -45,8 +46,7 @@ export const MainAppView = () => {
 
   useEffect(() => {
     if (groupMembers) {      
-      calcBalances(currentGroup.groupMembers, transactions);
-      console.log('Calced Balances');      
+      calcBalances(currentGroup.groupMembers, transactions);  
     };          
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactions, groupMembers]);
@@ -54,8 +54,8 @@ export const MainAppView = () => {
   return (
     <>
     {currentGroup && <MemberDisplay balances={balances} groupTotal={400} />}      
-    <div className="animated fadeIn w-11/12 md:w-9/12 lg:w-6/12 mx-auto mt-4 flex flex-wrap flex-column content-center justify-center">
-      {currentGroup && <Settle balances={balances} groupMembers={groupMembers} />} 
+    <div className="animated fadeIn w-11/12 md:w-9/12 lg:w-6/12 mx-auto flex flex-wrap flex-column content-center justify-center">
+      {currentGroup && <Settle balances={balances} groupMembers={groupMembers} creatorId={creatorId} />} 
       {currentGroup && <AddTransaction />} 
       {currentGroup && <TransactionList />}       
     </div>

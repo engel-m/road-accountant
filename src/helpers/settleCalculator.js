@@ -1,11 +1,12 @@
 export const settleCalculator = (balances) => {
     if (!balances) throw new Error('Error: Can not find balances in settle calculator!');
 
-    let settles = {};
+    let settles = [];
     const people = Object.keys(balances);
     const valuesPaid = Object.values(balances);
-    const sum = valuesPaid.reduce((acc, curr) => curr + acc);
+    const sum = valuesPaid.reduce((acc, curr) => curr + acc); 
     const mean = sum / people.length;
+
     const sortedPeople = people.sort((personA, personB) => balances[personA] - balances[personB]);
     const sortedValuesPaid = sortedPeople.map((person) => balances[person] - mean);
 
@@ -18,11 +19,17 @@ export const settleCalculator = (balances) => {
       sortedValuesPaid[i] += debt;
       sortedValuesPaid[j] -= debt;
 
-      // Filling the results object "settles"
-      settles[sortedPeople[i]] = {
-        amount: debt,
-        to: sortedPeople[j]
-      }
+
+      console.log(sortedPeople[i] + ' pays ' + debt + ' to ' + sortedPeople[j] + '\n');
+
+      // Filling the results array "settles" with transaction objects
+      if (debt > 0.03) {
+        settles.push({
+          from: sortedPeople[i],
+          amount: debt,
+          to: sortedPeople[j]
+        });
+      } 
       
       if (sortedValuesPaid[i] === 0) {
         i++;
