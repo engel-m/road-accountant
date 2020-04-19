@@ -64,7 +64,7 @@ export const NotificationsModal = (props) => {
   return (
     <>
     {/* Modal Header */}
-    <div className="modal-content py-4 text-center px-6">
+    <div className="modal-content w-full py-4 text-center px-6">
 
       <div className="flex justify-between items-center pb-3">
         <p className="text-2xl text-indigo-700 font-bold">NOTIFICATIONS</p>
@@ -74,7 +74,7 @@ export const NotificationsModal = (props) => {
       </div>      
 
       {/* Notification Cards */}
-      <div className="animated fadeIn w-full mx-auto md:mt-6 flex flex-wrap flex-column content-center justify-center">        
+      <div className="animated fadeIn w-full mx-auto md:mt-2 flex flex-wrap flex-column items-center justify-center">        
       { invites && Object.keys(invites).map( (invite, index) => (
             <NotificationCard key={invites[invite].groupId} acceptInvite={acceptInvite} deleteInvite={deleteInvite}
               invite={invites[invite]} userId={authUser.uid}/>

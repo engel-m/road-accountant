@@ -14,8 +14,8 @@ export const ModalTemplate = () => {
 
       {/* Set varying modal size for different modals */}
       <div className={ (renderStatus.modalView === 'NotificationsModal') ? 
-        "modal-container bg-gray-100 w-screen md:w-8/12 lg:max-w-lg xl:max-w-xl mx-auto md:mb-32 rounded-md shadow-lg z-50 h-screen md:h-auto overflow-y-auto"
-        : "modal-container bg-gray-100 w-screen md:w-8/12 lg:max-w-lg xl:max-w-xl xl:mb-32 mx-auto rounded-md shadow-lg z-50 h-screen md:h-auto overflow-y-auto"}>
+        "modal-container bg-gray-100 w-screen md:w-8/12 lg:w-8/12 mx-auto md:mb-32 rounded-md shadow-lg z-50 h-screen md:h-auto overflow-y-auto"
+        : "modal-container bg-gray-100 w-screen md:w-8/12 lg:w-6/12 xl:mb-32 mx-auto rounded-md shadow-lg z-50 h-screen md:h-auto overflow-y-auto"}>
                  
         {/* Close Button in upper right corner of screen */}
         <div onClick={(e) => setModal(false, e)} className="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">

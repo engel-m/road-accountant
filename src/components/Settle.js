@@ -33,7 +33,7 @@ export const Settle = ({ groupMembers, balances }) => {
         <span className="text-gray-700"> sends to </span>
         <span className={"text-" + groupMembers[settles[id].to].color + " "}>{groupMembers[settles[id].to].displayName}</span>
         <span className="text-gray-700">: </span>
-        <span className="text-gray-700">{settles[id].amount}</span> 
+        <span className="text-gray-700">{settles[id].amount.toFixed(2)}</span> 
       </div>
     ))}    
     <span className="w-9/12 text-base italic text-gray-500 font-bold border-t my-6">

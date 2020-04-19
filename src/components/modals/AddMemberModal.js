@@ -15,6 +15,7 @@ export const AddMemberModal = (props) => {
     const nickname = form['nickname'].value;    
     const generatedId = generatePushID();
     const color = tailwindColors[Math.floor(Math.random() * tailwindColors.length)];
+    setError(null);
     if (currentGroup) {      
       firestore.collection("Groups").doc(currentGroup.groupId).set({
         groupMembers: {

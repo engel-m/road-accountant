@@ -10,16 +10,16 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
   let spenderArr = [];
   let payerInfo = {};
 
-  transaction.spenders.map( spender => { 
+  transaction && (typeof transaction.spenders !== 'undefined') && transaction.spenders.map( spender => { 
     return spenderArr.push(members[spender].displayName || 'Unknown') 
   }); 
-  transaction.payers.forEach( payer => { 
+  const spenderNames = spenderArr.join(', ');
+  
+  transaction && (typeof transaction.payers !== 'undefined') && transaction.payers.forEach( payer => { 
     payerInfo.displayName = members[payer].displayName || 'Unknown';
     payerInfo.color = members[payer].color || 'gray-800';
   });
-  const spenderNames = spenderArr.join(', ');
 
-  console.log(payerInfo)
 
   return (
     <>

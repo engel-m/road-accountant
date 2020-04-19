@@ -23,14 +23,14 @@ export const MainAppView = () => {
       initBalances[member] = 0;
       transactionsByMember[member] = [];
     });  
-    transactions && Object.keys(transactions).forEach( item => {
+    (transactions !== null || 'undefined' || '') && Object.keys(transactions).forEach( item => {
       let transaction = transactions[item];    
-      let spenders = transaction.spenders;    
-      let payers = transaction.payers;   
-      spenders.forEach( spender => {
+      let spenders = typeof transaction.spenders !== 'undefined' ? transaction.spenders : null;    
+      let payers = typeof transaction.payers !== 'undefined' ? transaction.payers : null;   
+      spenders && spenders.forEach( spender => {
         transactionsByMember[spender].push(-transaction.dividedAmount);
       });
-      payers.forEach( payer => {
+      payers && payers.forEach( payer => {
         transactionsByMember[payer].push(+transaction.amount);
       });
     });

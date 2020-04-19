@@ -9,7 +9,7 @@ export const NotificationCard = React.memo(props => {
     <div className="relative flex w-full pt-4 pb-5 md:pb-1 my-2 justify-between bg-white shadow-md flex-shrink flex-wrap rounded mx-1
       hover:bg-indigo-100 hover:shadow-xl border-2 border-transparent hover:border-indigo-200 focus:bg-indigo-100 focus:shadow-xl">
 
-      <div className="inline-block max-w-2/12 ml-3">
+      <div className="inline-block lg:w-1/12 ml-2">
         <span 
           className="cursor-default text-xs md:text-sm text-blue-800 font-bold">
           { invite.inviteDate.toDate().toLocaleDateString() } </span>
