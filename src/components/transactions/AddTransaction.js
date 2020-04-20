@@ -125,11 +125,11 @@ export const AddTransaction = () => {
       </form>
     </div>
 
-    <div className="w-full">
+    <div className="w-full font-fira">
       {windowOpen ? null : <button onClick={(e) => {e.preventDefault(); setWindowOpen(true)}} 
         className="block mx-auto mt-8 mb-3 w-1/2 px-4 bg-indigo-700 p-3 rounded-lg text-white hover:bg-indigo-600 focus:outline-none
         shadow border border-gray-200">Add Expense</button>}
-      <button className="block mx-auto mt-3 mb-6 w-1/2 px-4 bg-orange-500 p-3 rounded-lg text-white hover:bg-orange-400 focus:outline-none
+      <button className="block mx-auto mt-3 mb-6 w-1/2 px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400 focus:outline-none
         shadow border border-gray-200"><span role="img" aria-label="fuel-icon">&#9981;</span>  Fuel Cost Tool</button>
     </div>
     </>

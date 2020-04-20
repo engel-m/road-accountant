@@ -40,7 +40,8 @@ export const CreateGroupModal = (props) => {
             creatorId: auth.currentUser.uid,
             creatorMail: auth.currentUser.email,
             createDate: timestamp.fromDate(new Date()).toDate(),
-            lastActivity: timestamp.fromDate(new Date()).toDate()
+            lastActivity: timestamp.fromDate(new Date()).toDate(),
+            lastSettle: timestamp.fromDate(new Date()).toDate()
           }
         }        
       }, {merge: true})   

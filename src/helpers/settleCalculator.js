@@ -19,9 +19,6 @@ export const settleCalculator = (balances) => {
       sortedValuesPaid[i] += debt;
       sortedValuesPaid[j] -= debt;
 
-
-      console.log(sortedPeople[i] + ' pays ' + debt + ' to ' + sortedPeople[j] + '\n');
-
       // Filling the results array "settles" with transaction objects
       if (debt > 0.03) {
         settles.push({

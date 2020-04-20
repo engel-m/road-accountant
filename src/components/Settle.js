@@ -1,29 +1,54 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { settleCalculator } from '../helpers/settleCalculator';
+import { generatePushID } from "../helpers/pushIdGenerator.js";
 import { AuthContext } from '../context/AuthContext';
+import { firestore, timestamp } from '../config/Firebase';
 
-export const Settle = ({ groupMembers, balances, creatorId }) => {
+export const Settle = ({ groupId, groupMembers, creatorId, balances }) => {
   const { authUser } = useContext(AuthContext); 
   const [settleOpen, setSettleOpen] = useState(false); 
   const [settles, setSettles] = useState(null); 
   const [settleConfirm, setSettleConfirm] = useState(null); 
+  const [error, setError] = useState(null); 
+  const [success, setSuccess] = useState(null); 
   const members = typeof groupMembers !== undefined ? groupMembers : null;
 
   const currentId = authUser ? authUser.uid : null;
 
   const calcSettles = (balancesObj) => {
-    let results = settleCalculator(balancesObj); 
+    const results = settleCalculator(balancesObj); 
     setSettles(results);
   }
 
   const doSettle = () => {
+    const transactionId = generatePushID();
+    const time = timestamp.fromDate(new Date()).toDate();
 
-  }
-
-  const handleWindow = (e) => {
-    e.preventDefault(); 
-    setSettleOpen(!settleOpen);    
-  }
+    // Execute firestore send of settle to transaction list
+    firestore.collection("Groups").doc(groupId).set({
+      lastActivity: time,
+      lastSettled: time,
+      transactions: {
+        [transactionId]: {
+          amount: 0,
+          desc: 'Group did settlement!',
+          dividedAmount: 0, 
+          payers: null,
+          spenders: null,
+          timestamp: time,
+          type: 'settlement'
+        }
+      }      
+    }, {merge: true}).then( () => {
+      setSettleOpen(false);
+      setSettles(null);
+      setSuccess('Success! Settled');   
+      console.log('did settle!');  
+      setTimeout(() => setSuccess(''), 3000);  
+    }).catch( (error) => {
+      setError(error.message)
+    });    
+  }     
  
   useEffect(() => {
     if (balances){
@@ -36,8 +61,12 @@ export const Settle = ({ groupMembers, balances, creatorId }) => {
   {/* When button is pushed and the settling display is open */}
   { settleOpen && 
 
-  <div className="flex w-11/12 md:w-8/12 flex-wrap justify-center items-center bg-white rounded-lg shadow py-2 text-center text-xl">
+  <div className="relative flex w-11/12 md:w-8/12 flex-wrap justify-center items-center bg-white rounded-lg shadow py-2 text-center text-xl">
     <span className="w-9/12 text-gray-600 font-bold border-b mb-4">Transfers to settle and set everyone at 0 debts</span>
+    <div onClick={(e) => setSettleOpen(false)} className="absolute top-0 right-0 mb-3 px-3 py-1 bg-red-600 cursor-pointer font-bold text-xl 
+          text-white rounded-lg hover:bg-red-500 shadow border border-gray-200">
+            X
+    </div>
     {settles && members && settles.map( (transfer, key) => (
       <div key={key} className="w-full text-gray-700 font-bold">
         <span className={"text-" + groupMembers[transfer.from].color + " "}>{groupMembers[transfer.from].displayName}</span>
@@ -51,7 +80,7 @@ export const Settle = ({ groupMembers, balances, creatorId }) => {
       Your group creator can confirm settlement to reset the balances to 0 but keep the group and expense history.</span> 
     }     
     {/* When creator is viewing the group, can confirm settlement and reset the balances */}
-    { (currentId !== creatorId) && 
+    { (currentId === creatorId) && 
       <>
       <span className="w-9/12 text-base italic text-gray-500 font-bold border-t my-6">
       Confirm settlement has been done by members? This will reset the balances to 0 but keep the group and expense history.</span>
@@ -76,12 +105,19 @@ export const Settle = ({ groupMembers, balances, creatorId }) => {
     }    
 
   </div>}
+    {/* Success alert */}    
+    {success && <div id="settle-success-bar" 
+      className="flex w-full mt-6 h-16 bg-green-100 p-3 border-green-600 border rounded items-center justify-center animated">
+      <p className="text-green-600">{success}</p></div>}   
+    {error && <div className="flex w-full my-4 h-16 bg-red-100 p-3 border-red-600 border rounded items-center justify-center">
+      <p className="text-red-600">{error}</p></div>}   
 
-
-  <div onClick={ (e) => { handleWindow(e) } } 
-    className="w-4/6 md:w-5/12 text-center py-3 mt-4 bg-green-500 rounded-lg shadow-lg border-2 border-gray-300 
-    cursor-pointer hover:bg-green-400 hover:shadow-inner">
-    <span className="text-white text-lg md:text-2xl">Settle All Differences</span>
+    {/* The Big Settle Button */}
+  <div className="flex w-full text-center justify-center">
+    <div onClick={ (e) => { setSettleOpen(true) } } className="w-3/6 md:w-3/12 items-center justify-center 
+      py-3 mt-4 bg-green-500 rounded-lg shadow-lg border-2 border-gray-300 cursor-pointer hover:bg-green-400 hover:shadow-inner">
+      <span className="text-white font-fira text-lg md:text-xl">Settle All Differences</span>
+    </div>
   </div>
   </>
   )

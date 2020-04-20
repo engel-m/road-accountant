@@ -9,13 +9,15 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
   let isCreator = authId ? (creatorId === authId) ? true : false : false;
   let spenderArr = [];
   let payerInfo = {};
+  const settlement = transaction && transaction.type === 'settlement' ? true : false;
 
-  transaction && (typeof transaction.spenders !== 'undefined') && transaction.spenders.map( spender => { 
+
+  transaction && (typeof transaction.spenders !== 'undefined') && transaction.spenders && transaction.spenders.map( spender => { 
     return spenderArr.push(members[spender].displayName || 'Unknown') 
   }); 
   const spenderNames = spenderArr.join(', ');
   
-  transaction && (typeof transaction.payers !== 'undefined') && transaction.payers.forEach( payer => { 
+  transaction && (typeof transaction.payers !== 'undefined') && transaction.payers && transaction.payers.forEach( payer => { 
     payerInfo.displayName = members[payer].displayName || 'Unknown';
     payerInfo.color = members[payer].color || 'gray-800';
   });
@@ -23,8 +25,8 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
 
   return (
     <>
-    <li className={"relative flex w-full flex-wrap justify-between items-center p-2 my-2 bg-white shadow-lg text-gray-800 border-l-4 border-r-4 border-red-300 "
-        + (confirmAlert && " bg-red-100 shadow-inner ")}>
+    <li className={"relative rounded-sm flex w-full flex-wrap justify-between items-center p-2 my-2 bg-white shadow text-gray-800 border-l-4 border-r-4 border-red-300 "
+        + (confirmAlert && " bg-red-100 shadow-inner ") + (settlement && " bg-green-300 border-green-500 ")}>
       {/* Amount & Desc */}
       <div className="flex justify-left w-full lg:w-2/4 items-center">
         {transaction.type === 'expense' && <span className="text-red-600 w-3/12 lg:w-2/12 p-2 bg-red-100 rounded-lg">{amount}</span>}
@@ -36,7 +38,7 @@ export const Transaction = ({ transaction, id, deleteTransaction, members, creat
           <span className="ml-1 italic">{spenderArr.length === groupMemberCount ? "Group" : spenderNames}</span>
           <span className="ml-1 text-gray-600">| {date} |</span>
           <span className={"text-" + payerInfo.color + " ml-1 text-center"}>{payerInfo.displayName}</span>
-          <img className="hidden lg:inline mr-1" width="32" height="32" src="img/wallet-icon.png" alt="Wallet Icon" />
+          {!settlement && <img className="hidden lg:inline mr-1" width="32" height="32" src="img/wallet-icon.png" alt="Wallet Icon" />}
         </div>
         {/* Delete button on large screens */}
         {isCreator && <span onClick={() => setConfirmAlert(true)} 
