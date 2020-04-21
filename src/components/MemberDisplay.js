@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { GroupListener } from '../context/GroupListener';
 import { MemberCard } from './MemberCard';
 
-export const MemberDisplay = ({ balances, groupTotal }) => {
+export const MemberDisplay = ({ balances, groupTotals }) => {
   const { currentGroup } = useContext(GroupListener);
   const { setModal } = useContext(GlobalContext); 
   const members = currentGroup ? currentGroup.groupMembers : null;
@@ -31,8 +31,21 @@ export const MemberDisplay = ({ balances, groupTotal }) => {
 
     </div>
 
-    <div className="flex w-1/3 justify-center items-center mx-auto my-2 pb-2 border-b">
-      <span className="font-bold text-gray-600 text-xl italic">Group Total Spent: <span className="text-indigo-700 not-italic">{groupTotal}</span></span>
+    <div className="w-full text-center my-2 pb-2 border-b">
+
+      <div className="w-full">
+        <span className="font-bold text-gray-600 text-xl italic">Total expenses: Group | Average:  
+          <span className="text-red-300 not-italic">{groupTotals && `  ${Math.floor(groupTotals.everything)}  |  ${Math.floor(groupTotals.average)} p.p.`}</span>
+        </span>
+      </div>
+
+      <div className="w-full">
+        <span className="font-bold text-gray-600 text-xl italic">Total since last settle: Group | Average:   
+          <span className="text-red-300 not-italic">{groupTotals && `  ${Math.floor(groupTotals.everythingAfterSettle)} 
+             |  ${Math.floor(groupTotals.averageAfterSettle)} p.p.`}</span>
+        </span>
+      </div>
+
     </div>
     </>
   )

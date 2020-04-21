@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { auth, firestore, timestamp } from "../../config/Firebase.js";
+import { AuthContext } from '../../context/AuthContext';
+
 
 export const CreateGroupModal = (props) => {  
+  const { demo } = useContext(AuthContext); 
   const [error, setError] = useState('');  
   const setModal = props.setModal; 
   
   const formHandler = (e) => {
     e.preventDefault();
+    if (demo) {
+      setError('Please make a real account to create new groups!');
+      return;
+    }  
     const form = document.querySelector('#modal-form');
     const groupname = form['groupname'].value;       
+    const time = timestamp.fromDate(new Date()).toDate();
     let createdGroupId = null;
 
     firestore.collection("Groups").add({
@@ -25,13 +33,16 @@ export const CreateGroupModal = (props) => {
         email: auth.currentUser.email,
         id: auth.currentUser.uid
       },
+      createDate: time,
+      demo: false,
+      lastActivity: time,
+      lastSettled: null,
       name: groupname,
-      transactions: null,
-      createDate: timestamp.fromDate(new Date()).toDate(),
-      lastActivity: timestamp.fromDate(new Date()).toDate()
+      transactions: null
     }).then ( returned => {
       createdGroupId = returned.im.path.segments[1];
       firestore.collection("GroupsByUser").doc(auth.currentUser.uid).set({
+        demo: false,
         groups: {
           [createdGroupId]: {
             groupId: createdGroupId,
@@ -40,8 +51,7 @@ export const CreateGroupModal = (props) => {
             creatorId: auth.currentUser.uid,
             creatorMail: auth.currentUser.email,
             createDate: timestamp.fromDate(new Date()).toDate(),
-            lastActivity: timestamp.fromDate(new Date()).toDate(),
-            lastSettle: timestamp.fromDate(new Date()).toDate()
+            lastActivity: timestamp.fromDate(new Date()).toDate()
           }
         }        
       }, {merge: true})   

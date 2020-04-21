@@ -17,11 +17,19 @@ export const CreateAccount = () => {
     auth.createUserWithEmailAndPassword(email, password).then(returned => {
       if(returned.user && returned.additionalUserInfo.isNewUser === true){
         firestore.collection("Users").doc(returned.user.uid).set({ 
-          displayName: nickname, uid: returned.user.uid, email, selectedGroup: null
+          demo: false,
+          displayName: nickname, 
+          uid: returned.user.uid, 
+          email, selectedGroup: null
         })      
         returned.user.updateProfile({
           displayName: nickname
-        }).then( firestore.collection('Notifications').doc(returned.user.uid).set({ email, displayName: nickname, invites: null }, {merge: true})
+        }).then( firestore.collection('Notifications').doc(returned.user.uid).set({ 
+          demo: false,
+          email, 
+          displayName: nickname, 
+          invites: null 
+        }, {merge: true})
         ).catch(error => {
           setError(error.message)
         })   

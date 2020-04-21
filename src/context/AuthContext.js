@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(auth.currentUser);  
   const [notifications, setNotifications] = useState(null);
   const [pendingAuth, setPendingAuth] = useState(true);
+  const [demo, setDemo] = useState(false);
   
   let unsubscribeUser = useRef(null);
   let unsubNotifications = useRef(null);
@@ -21,30 +22,34 @@ export const AuthProvider = ({ children }) => {
         unsubscribeUser.current = null;
         unsubNotifications.current && unsubNotifications.current();
         unsubNotifications.current = null;
-        setPendingAuth(false)
+        setPendingAuth(false);
       } else if (user) { 
         unsubscribeUser.current = 
           firestore.collection("Users").doc(user.uid).onSnapshot( userData => {
-            setAuthUser(userData.data()) 
-            console.log('Updated user data from new snapshot')              
+            let user = userData.data();
+            if (user.demo) {
+              setDemo(true);
+            } 
+            setAuthUser(userData.data()); 
+            console.log('Updated user data from new snapshot');              
           }, function(error) {
-            console.log(error)
+            console.log(error);
           });  
 
         unsubNotifications.current = 
         firestore.collection("Notifications").doc(user.uid).onSnapshot( notifData => {
-          setNotifications(notifData.data()) 
-          console.log('Updated notifications from new snapshot')              
+          setNotifications(notifData.data()); 
+          console.log('Updated notifications from new snapshot');              
         }, function(error) {
-          console.log(error)
+          console.log(error);
         });  
-        console.log('Listening to user data and notifications')                 
-        setPendingAuth(false)      
+        console.log('Listening to user data and notifications');                 
+        setPendingAuth(false);      
       } 
     });
     
     return () => {
-      console.log('Returned Auth / Notifications Listener useEffect, unsubscribing')
+      console.log('Returned Auth / Notifications Listener useEffect, unsubscribing');
       unsubscribeUser.current && unsubscribeUser.current();
       unsubscribeUser.current = null; 
       unsubNotifications.current && unsubNotifications.current();
@@ -61,6 +66,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         authUser,
+        demo,
         unsubscribeUser,
         notifications,
         unsubNotifications

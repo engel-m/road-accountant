@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 
-export const Transaction = ({ transaction, id, deleteTransaction, members, creatorId, authId }) => {
+export const Transaction = ({ transaction, id, deleteTransaction, members, creatorId, authId, timestamp }) => {
   const [confirmAlert, setConfirmAlert] = useState(false);
   const date = transaction.timestamp.toDate().toLocaleDateString();
   const groupMemberCount = Object.keys(members).length || 0;

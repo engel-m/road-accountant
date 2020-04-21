@@ -35,7 +35,7 @@ export const TransactionList = () => {
       <h3 className="border-b border-gray-400 mb-4">History</h3>
       <ul className="list-none w-full">
         {sorted.length ? sorted.map((transaction) => (
-          <Transaction key={transaction.id} id={transaction.id} transaction={transaction} 
+          <Transaction key={transaction.id} id={transaction.id} transaction={transaction} timestamp={transaction.timestamp} 
             members={members} creatorId={creatorId} authId={authUser.uid} deleteTransaction={deleteTransaction}/> 
          )) : <li className="p-2 my-2 bg-white shadow-md text-gray-800">No Transactions yet!</li>}
       </ul>

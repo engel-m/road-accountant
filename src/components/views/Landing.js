@@ -1,10 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../context/GlobalState';
-import { auth, googleAuth, firestore } from '../../config/Firebase';
+import { auth, googleAuth, firestore, timestamp } from '../../config/Firebase';
+import { generatePushID } from "../../helpers/pushIdGenerator.js";
+import { demoGroup } from "../../helpers/demoData.js";
 
 export const LandingPage = () => {
   const { setView } = useContext(GlobalContext);
   const [error, setError] = useState('');
+
+  const googleHandler = (e) => {
+    e.preventDefault();
+    setError('');
+    auth.signInWithPopup(googleAuth).then( (returned) => {  
+      firestore.collection('Notifications').doc(returned.user.uid).set({ email: returned.user.email, displayName: returned.user.displayName }, { merge: true })  
+    }).catch( (error) => {
+      setError(error.message)
+    });
+  };
 
   const formHandler = (e) => {
     e.preventDefault();
@@ -17,20 +29,78 @@ export const LandingPage = () => {
     });
   };
 
-  const googleHandler = (e) => {
+  const demoHandler = (e) => {
     e.preventDefault();
     setError('');
-    auth.signInWithPopup(googleAuth).then( (returned) => {  
-      firestore.collection('Notifications').doc(returned.user.uid).set({ email: returned.user.email, displayName: returned.user.displayName }, { merge: true })  
-    }).catch( (error) => {
+    const generated = generatePushID();
+    const email = generated + '@demo-user.xxx';
+    const password = 'demopass';
+    const generatedGroupID = generatePushID();
+    const generatedInviteID = generatePushID();
+    const secondGeneratedInviteID = generatePushID();
+    const currentDate = timestamp.fromDate(new Date()).toDate();
+    auth.createUserWithEmailAndPassword(email, password).then(returned => {
+      if ( returned.user && returned.additionalUserInfo.isNewUser === true ){
+        firestore.collection("Users").doc(returned.user.uid).set({ 
+          demo: true,
+          displayName: 'DemoUser', 
+          uid: returned.user.uid, 
+          email, 
+          selectedGroup: generatedGroupID
+        });      
+        returned.user.updateProfile({
+          displayName: 'DemoUser'
+        }).then( 
+        firestore.collection("Groups").doc(generatedGroupID).set(
+          demoGroup(auth.currentUser.uid, email, currentDate), {merge: true})
+        .then ( 
+          firestore.collection("GroupsByUser").doc(auth.currentUser.uid).set({
+            demo: true,
+            groups: {
+              [generatedGroupID]: {
+                groupId: generatedGroupID,
+                name: 'Trip to Paris',
+                creator: 'DemoUser',
+                creatorId: auth.currentUser.uid,
+                creatorMail: email,
+                createDate: currentDate,
+                lastActivity: currentDate
+              }
+            }        
+          }, {merge: true})   
+        ).then( firestore.collection('Notifications').doc(returned.user.uid).set({ 
+            demo: true,
+            email, 
+            displayName: 'DemoUser', 
+            invites: {
+              [generatedInviteID]: {
+                groupName: 'Weekend in Milan',
+                creatorName: 'Kate',
+                creatorMail: 'kate@road-acc-demo.xxx',
+                createDate: currentDate,
+                groupId: generatedInviteID,
+                inviteDate: currentDate
+              }, [secondGeneratedInviteID]: {
+                groupName: 'Camping vacation',
+                creatorName: 'Harry',
+                creatorMail: 'harry@road-acc-demo.xxx',
+                createDate: currentDate,
+                groupId: secondGeneratedInviteID,
+                inviteDate: currentDate
+              }
+            }
+          }, {merge: true}))
+        .then( setView('MainAppView') ))
+      }
+    }).catch(error => {
       setError(error.message)
-    });
+    });   
   };
 
   return (
     <>
         <div className="flex content-center items-center justify-center h-full animated fadeIn mb-10">
-          <div className="w-full md:w-8/12 lg:w-3/12 px-4 md:pt-32">
+          <div className="w-full md:w-8/12 lg:w-5/12 xl:w-3/12 px-4 md:pt-32">
 
             <div className="relative flex flex-col min-w-0 break-words w-full mb-2 shadow-lg rounded-lg border-0">
               <div className="rounded-t mb-0 px-6 py-4">
@@ -82,28 +152,19 @@ export const LandingPage = () => {
                       placeholder="Password"
                     />
                   </div>
-                  {/* <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox text-gray-800 ml-1 w-5 h-5"/>
-                      <span className="ml-2 text-sm font-semibold text-gray-700">
-                        Remember me
-                      </span>
-                    </label>
-                  </div> */}
-
+  
                   {error !== '' && <div className="bg-red-100 p-3 border-red-600 border rounded"><p className="text-red-600 text-center">
                     {error}</p></div>}     
 
                   <div className="text-center mt-6">
                     <button
-                      className="bg-purple-600 hover:bg-purple-500 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                      className="bg-purple-600 hover:bg-purple-500 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow 
+                      hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
                       type="submit">
                       Log In
                     </button>
                   </div>
+
                 </form>
               </div>
             </div>
@@ -118,7 +179,15 @@ export const LandingPage = () => {
                 <span onClick={(e) => setView('CreateAccount', e)} className="text-gray-600 font-bold italic cursor-pointer">
                   <small>Create new account</small>
                 </span>
-              </div>              
+              </div>   
+              <div className="w-full mt-4 text-center text-lg font-bold text-gray-600"> Or </div>           
+            </div>
+                              
+            <div className="flex w-full text-center justify-center">
+              <div onClick={ (e) => { demoHandler(e) } } className="w-3/6 md:w-8/12 items-center justify-center 
+                py-3 mt-6 bg-green-500 rounded-lg shadow-lg border-2 border-gray-300 cursor-pointer hover:bg-green-400 hover:shadow-inner">
+                <span className="text-white font-fira text-lg text-sm md:text-xl">Log in as Demo user</span>
+              </div>
             </div>
 
           </div>

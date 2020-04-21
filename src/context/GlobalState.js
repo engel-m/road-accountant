@@ -3,33 +3,9 @@ import AppReducer from './AppReducer';
 
 // Initial state
 const initialState = {
-  transactions: [],
-  members: [
-    {
-      firstname: "Michael",
-      nickname: "Mike",
-      email: "mike@hotmail.com",
-    }, 
-    {
-      firstname: "Katy",
-      nickname: "Kate",
-      email: "kate@example.com"
-    },
-    {
-      firstname: "Harry",
-      nickname: "Harry",
-      email: "bertvis@gmail.com"
-    }
-  ],
   renderStatus: {    
     currentView: 'Landing',
     modalView: false,
-  },
-  currentUser: {
-    displayName: '',
-    email: '',
-    groups: '',
-    selectedGroup: '',
   }
 }
 
@@ -60,39 +36,12 @@ export const GlobalProvider = ({ children }) => {
       payload: {modalName}
     });
   }
-  
-  function setUser(userData) {
-    dispatch({
-      type: 'SET_USER',
-      payload: {userData}
-    });
-  }
-
-  function deleteTransaction(id) {
-    dispatch({
-      type: 'DELETE_TRANSACTION',
-      payload: id
-    });
-  }
-
-  function addTransaction(transaction) {
-    dispatch({
-      type: 'ADD_TRANSACTION',
-      payload: transaction
-    });
-  }
 
   return (<GlobalContext.Provider value={{
-    transactions: state.transactions,
-    members: state.members,
     renderStatus: state.renderStatus,
-    currentUser: state.currentUser,
     currentGroup: state.currentGroup,    
     setView,
-    setModal,
-    setUser,
-    deleteTransaction,
-    addTransaction
+    setModal
   }}>
     {children}
   </GlobalContext.Provider>);

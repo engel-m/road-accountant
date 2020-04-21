@@ -7,19 +7,23 @@ import { NotificationCard } from './NotificationCard';
 export const NotificationsModal = (props) => {   
   const setModal = props.setModal;    
   const setView = props.setView;    
-  const { authUser, notifications } = useContext(AuthContext); 
+  const { authUser, demo, notifications } = useContext(AuthContext); 
   const [error, setError] = useState(''); 
   const invites = notifications ? notifications.invites : null;
 
   const acceptInvite = (id, e = '') => {
-    (e !== '') && e.preventDefault();    
+    (e !== '') && e.preventDefault();  
+    if (demo) {
+      setError('These notifications are for demo purposes. Please make a real account to use these features.');
+      return;
+    }  
     firestore.collection('Users').doc(authUser.uid).update({
       selectedGroup: id
     }).catch( (error) => {
       console.log(error);
       setError(error.message);
     })       
-    firestore.collection('GroupsByUser').doc(authUser.uid).update({
+    firestore.collection('GroupsByUser').doc(authUser.uid).set({
       groups: {
         [id]: {
           createDate: invites[id].createDate,
@@ -31,7 +35,7 @@ export const NotificationsModal = (props) => {
           name: invites[id].groupName
         }
       }
-    }).then( 
+    }, { merge: true }).then( 
       firestore.collection("Notifications").doc(authUser.uid).set({ 
         invites: {
           [id]: fieldValue.delete()
