@@ -129,8 +129,9 @@ export const AddTransaction = () => {
       {windowOpen ? null : <button onClick={(e) => {e.preventDefault(); setWindowOpen(true)}} 
         className="block mx-auto mt-8 mb-3 w-1/2 px-4 bg-indigo-700 p-3 rounded-lg text-white hover:bg-indigo-600 focus:outline-none
         shadow border border-gray-200">Add Expense</button>}
-      <button className="block mx-auto mt-3 mb-6 w-1/2 px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400 focus:outline-none
-        shadow border border-gray-200"><span role="img" aria-label="fuel-icon">&#9981;</span>  Fuel Cost Tool</button>
+      {/* Possibly to add later */}
+      {/* <button className="block mx-auto mt-3 mb-6 w-1/2 px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400 focus:outline-none
+        shadow border border-gray-200"><span role="img" aria-label="fuel-icon">&#9981;</span>  Fuel Cost Tool</button> */}
     </div>
     </>
   )
