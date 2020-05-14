@@ -27,9 +27,9 @@ export const AuthProvider = ({ children }) => {
         unsubscribeUser.current = 
           firestore.collection("Users").doc(user.uid).onSnapshot( userData => {
             let user = userData.data();
-            if (user.demo) {
-              setDemo(true);
-            } 
+            if (typeof user !== 'undefined' && user !== null) {
+              user.demo ? setDemo(true) : setDemo(false);
+            }         
             setAuthUser(userData.data()); 
             console.log('Updated user data from new snapshot');              
           }, function(error) {

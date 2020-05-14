@@ -45,7 +45,7 @@ export const MainAppView = () => {
     };
 
     // Loop through the transactions to calc balances
-    (transactionsObject !== null || 'undefined' || '') && Object.keys(transactionsObject).forEach( item => {    
+    ( (transactionsObject !== null || '') && typeof transactionsObject !== 'undefined') && Object.keys(transactionsObject).forEach( item => {    
       let transaction = transactions[item]; 
       calcedTotals.everything += Math.abs(-transaction.amount);
       calcedTotals.average += (transaction.amount / memberCount);

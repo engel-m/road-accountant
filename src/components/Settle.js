@@ -11,7 +11,7 @@ export const Settle = ({ groupId, groupMembers, creatorId, balances }) => {
   const [settleConfirm, setSettleConfirm] = useState(null); 
   const [error, setError] = useState(null); 
   const [success, setSuccess] = useState(null); 
-  const members = typeof groupMembers !== undefined ? groupMembers : null;
+  const members = typeof groupMembers !== 'undefined' ? groupMembers : null;
 
   const currentId = authUser ? authUser.uid : null;
 
