@@ -24,12 +24,18 @@ export const CreateAccount = () => {
         })      
         returned.user.updateProfile({
           displayName: nickname
-        }).then( firestore.collection('Notifications').doc(returned.user.uid).set({ 
-          demo: false,
-          email, 
-          displayName: nickname, 
-          invites: null 
-        }, {merge: true})
+        }).then( 
+          firestore.collection('Notifications').doc(returned.user.uid).set({ 
+            demo: false,
+            email, 
+            displayName: nickname, 
+            invites: null 
+          }, {merge: true})
+        ).then( 
+          firestore.collection('GroupsByUser').doc(returned.user.uid).set({ 
+            demo: false,
+            groups: null     
+          }, {merge: true})
         ).catch(error => {
           setError(error.message)
         })   
