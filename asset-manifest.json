@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/road-accountant/static/css/main.cc108d5e.chunk.css",
-    "main.js": "/road-accountant/static/js/main.d0289e54.chunk.js",
-    "main.js.map": "/road-accountant/static/js/main.d0289e54.chunk.js.map",
+    "main.js": "/road-accountant/static/js/main.88e9629d.chunk.js",
+    "main.js.map": "/road-accountant/static/js/main.88e9629d.chunk.js.map",
     "runtime-main.js": "/road-accountant/static/js/runtime-main.afee60eb.js",
     "runtime-main.js.map": "/road-accountant/static/js/runtime-main.afee60eb.js.map",
     "static/js/2.b5118144.chunk.js": "/road-accountant/static/js/2.b5118144.chunk.js",
     "static/js/2.b5118144.chunk.js.map": "/road-accountant/static/js/2.b5118144.chunk.js.map",
     "index.html": "/road-accountant/index.html",
-    "precache-manifest.32b2de7b7a2facf287d3ea9ee8693b36.js": "/road-accountant/precache-manifest.32b2de7b7a2facf287d3ea9ee8693b36.js",
+    "precache-manifest.12b1c552f185467af5cbb371b182406b.js": "/road-accountant/precache-manifest.12b1c552f185467af5cbb371b182406b.js",
     "service-worker.js": "/road-accountant/service-worker.js",
     "static/css/main.cc108d5e.chunk.css.map": "/road-accountant/static/css/main.cc108d5e.chunk.css.map",
     "static/js/2.b5118144.chunk.js.LICENSE.txt": "/road-accountant/static/js/2.b5118144.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.afee60eb.js",
     "static/js/2.b5118144.chunk.js",
     "static/css/main.cc108d5e.chunk.css",
-    "static/js/main.d0289e54.chunk.js"
+    "static/js/main.88e9629d.chunk.js"
   ]
 }

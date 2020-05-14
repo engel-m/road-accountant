@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5d5e933c52cb5fed1cdb1050590a6187",
+    "revision": "fa61e1d8fc3f8b2a640e75350b2a5067",
     "url": "/road-accountant/index.html"
   },
   {
-    "revision": "bd5df6309cb0a651bbb2",
+    "revision": "27388881f3d07c45ba3e",
     "url": "/road-accountant/static/css/main.cc108d5e.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/road-accountant/static/js/2.b5118144.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bd5df6309cb0a651bbb2",
-    "url": "/road-accountant/static/js/main.d0289e54.chunk.js"
+    "revision": "27388881f3d07c45ba3e",
+    "url": "/road-accountant/static/js/main.88e9629d.chunk.js"
   },
   {
     "revision": "0687f7d70514d9ea5e31",

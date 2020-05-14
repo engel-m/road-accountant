@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/road-accountant/precache-manifest.32b2de7b7a2facf287d3ea9ee8693b36.js"
+  "/road-accountant/precache-manifest.12b1c552f185467af5cbb371b182406b.js"
 );
 
 self.addEventListener('message', (event) => {
